@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>cn.microvideo.framework3.project</groupId>
+        <artifactId>mvpd</artifactId>
+        <version>${revision}</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+
+    <groupId>cn.microvideo.framework3.project</groupId>
+    <artifactId>app-mybatis</artifactId>
+    <packaging>jar</packaging>
+
+    <name>Mvpd::App::Mybatis</name>
+
+    <properties>
+        <main.basedir>${project.parent.basedir}</main.basedir>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+
+        <!-- webapp-cloud版本 -->
+        <dependency>
+            <groupId>cn.microvideo.framework3.webapp</groupId>
+            <artifactId>microvideo-webapp-cloud-tomcat-mybatis</artifactId>
+        </dependency>
+
+        <!-- 系统基础配置-数据库连接-->
+        <dependency>
+            <groupId>cn.microvideo.framework3.support</groupId>
+            <artifactId>microvideo-support-druid</artifactId>
+        </dependency>
+
+        <!--    &lt;!&ndash; 分布式锁&ndash;&gt;-->
+        <!--    <dependency>-->
+        <!--        <groupId>cn.microvideo.framework3.support</groupId>-->
+        <!--        <artifactId>microvideo-support-redissonlock</artifactId>-->
+        <!--    </dependency>-->
+
+        <!-- 线程池配置-->
+        <dependency>
+            <groupId>cn.microvideo.framework3.support</groupId>
+            <artifactId>microvideo-support-executor</artifactId>
+        </dependency>
+
+        <!--    &lt;!&ndash; redis&ndash;&gt;-->
+        <!--    <dependency>-->
+        <!--        <groupId>cn.microvideo.framework3.support</groupId>-->
+        <!--        <artifactId>microvideo-support-redis-common</artifactId>-->
+        <!--    </dependency>-->
+
+        <dependency>
+            <groupId>cn.microvideo.framework3.project</groupId>
+            <artifactId>db-acgi-test-impl</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.microvideo.framework3.core</groupId>
+            <artifactId>microvideo-core-password-encryption</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>cn.microvideo.framework3.mvpd.mybatis.MicrovideoChaeMtpBusCloudDbmApplication</mainClass>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+            </plugin>
+        </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>Dockerfile-production*</include>
+                    <include>Dockerfile-test*</include>
+                    <include>*.yml</include>
+                    <include>logback.xml</include>
+                    <include>banner.txt</include>
+                    <include>application.yml</include>
+                    <include>knife4j/*.*</include>
+                    <include>code.properties</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
+</project>

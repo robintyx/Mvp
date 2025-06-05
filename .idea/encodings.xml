@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/02-components/01-common/01-cache-store/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/02-components/01-common/01-cache-store/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/02-components/02-pc/01-portlet/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/02-components/02-pc/01-portlet/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/02-components/02-pc/02-websocket-server/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/02-components/02-pc/02-websocket-server/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/02-components/02-pc/03-websocket-push/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/02-components/02-pc/03-websocket-push/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/02-components/03-weixin/01-portlet/01-portlet-qy/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/02-components/03-weixin/01-portlet/01-portlet-qy/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/02-components/03-weixin/01-portlet/02-portlet-gzh/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/02-components/03-weixin/01-portlet/02-portlet-gzh/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/02-components/03-weixin/02-token/01-token-common/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/02-components/03-weixin/02-token/01-token-common/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/02-components/03-weixin/03-message/01-message-qy/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/02-components/03-weixin/03-message/01-message-qy/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/02-components/04-transfer/01-transfer-kafka/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/02-components/04-transfer/01-transfer-kafka/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/02-components/05-flink/01-flink-kafka-sink-kafka/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/02-components/05-flink/01-flink-kafka-sink-kafka/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/02-components/05-flink/02-flink-kafka-sink-db-mysql/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/02-components/05-flink/02-flink-kafka-sink-db-mysql/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/02-components/05-flink/03-flink-kafka-sink-db-postgresql/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/02-components/05-flink/03-flink-kafka-sink-db-postgresql/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/02-components/05-flink/04-flink-kafka-sink-db-clickhouse/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/02-components/05-flink/04-flink-kafka-sink-db-clickhouse/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/02-components/05-flink/05-flink-kafka-sink-custom/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/02-components/05-flink/05-flink-kafka-sink-custom/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/02-components/06-gateway/01-gateway-token/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/02-components/06-gateway/01-gateway-token/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/02-components/06-gateway/02-gateway-openapi/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/02-components/06-gateway/02-gateway-openapi/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/03-application/01-mybatis/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/03-application/01-mybatis/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/03-application/03-easyexcel/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/03-application/03-easyexcel/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/03-application/04-jxls/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/03-application/04-jxls/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/03-application/05-checktoken/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/03-application/05-checktoken/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/03-application/06-reddisonlock/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/03-application/06-reddisonlock/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/03-application/09-redis-common/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/03-application/09-redis-common/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/03-application/17-thrift-server/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/03-application/17-thrift-server/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/03-application/23-email/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/03-application/23-email/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/03-application/40-zipkin/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/03-application/40-zipkin/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/03-application/44-myapp/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/03-application/44-myapp/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/04-services/service-test/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/04-services/service-test/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/05-db/acg/mtp-acg-test-1.0/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/05-db/acg/mtp-acg-test-1.0/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/05-db/acgi/mtp-acgi-test-impl-1.0/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/05-db/acgi/mtp-acgi-test-impl-1.0/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
+  </component>
+</project>

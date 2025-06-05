@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="component-weixin-token-common" />
+        <module name="db-acg-test" />
+        <module name="app-mybatis" />
+        <module name="component-flink-kafka-sink-kafka" />
+        <module name="component-flink-kafka-sink-custom" />
+        <module name="component-flink-kafka-sink-db-mysql" />
+        <module name="component-pc-portlet" />
+        <module name="component-gateway-openapi" />
+        <module name="component-flink-kafka-sink-db-clickhouse" />
+        <module name="component-pc-websocket-push" />
+        <module name="component-weixin-message-qy" />
+        <module name="component-gateway-token" />
+        <module name="component-cache-store" />
+        <module name="component-flink-kafka-sink-db-postgresql" />
+        <module name="service-test" />
+        <module name="component-transfer-kafka" />
+        <module name="component-weixin-portlet-gzh" />
+        <module name="app-myapp" />
+        <module name="db-acgi-test-impl" />
+        <module name="component-weixin-portlet-qy" />
+        <module name="component-pc-websocket-server" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="44-myapp" target="1.8" />
+      <module name="app-checktoken" target="1.8" />
+      <module name="app-easyexcel" target="1.8" />
+      <module name="app-email" target="1.8" />
+      <module name="app-jxls" target="1.8" />
+      <module name="app-reddisonlock" target="1.8" />
+      <module name="app-redis-common" target="1.8" />
+      <module name="app-thrift-server" target="1.8" />
+      <module name="app-zipkin" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="44-myapp" options="-parameters" />
+      <module name="app-checktoken" options="-parameters" />
+      <module name="app-easyexcel" options="-parameters" />
+      <module name="app-email" options="-parameters" />
+      <module name="app-jxls" options="-parameters" />
+      <module name="app-myapp" options="-parameters" />
+      <module name="app-mybatis" options="-parameters" />
+      <module name="app-reddisonlock" options="-parameters" />
+      <module name="app-redis-common" options="-parameters" />
+      <module name="app-thrift-server" options="-parameters" />
+      <module name="app-zipkin" options="-parameters" />
+      <module name="component-cache-store" options="-parameters" />
+      <module name="component-flink-kafka-sink-custom" options="-parameters" />
+      <module name="component-flink-kafka-sink-db-clickhouse" options="-parameters" />
+      <module name="component-flink-kafka-sink-db-mysql" options="-parameters" />
+      <module name="component-flink-kafka-sink-db-postgresql" options="-parameters" />
+      <module name="component-flink-kafka-sink-kafka" options="-parameters" />
+      <module name="component-gateway-openapi" options="-parameters" />
+      <module name="component-gateway-token" options="-parameters" />
+      <module name="component-pc-portlet" options="-parameters" />
+      <module name="component-pc-websocket-push" options="-parameters" />
+      <module name="component-pc-websocket-server" options="-parameters" />
+      <module name="component-transfer-kafka" options="-parameters" />
+      <module name="component-weixin-message-qy" options="-parameters" />
+      <module name="component-weixin-portlet-gzh" options="-parameters" />
+      <module name="component-weixin-portlet-qy" options="-parameters" />
+      <module name="component-weixin-token-common" options="-parameters" />
+      <module name="db-acg-test" options="-parameters" />
+      <module name="db-acgi-test-impl" options="-parameters" />
+      <module name="service-test" options="-parameters" />
+    </option>
+  </component>
+</project>

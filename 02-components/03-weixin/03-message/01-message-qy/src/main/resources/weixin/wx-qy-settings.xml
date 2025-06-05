@@ -1,0 +1,25 @@
+<CorpSetting>
+    <!--  是否开启企业微信-->
+    <corpOpen>true</corpOpen>
+    <corpId>ww206a2f08bbd53992</corpId>
+    <corpSecret>25I3GnOsMjM5glsCdG5OiKlZqBbJcChOg7-64p-VaNY</corpSecret>
+    <corpSSL>false</corpSSL>
+    <!-- 可以指定自己的tokenHolderClass，继承与com.riversoft.weixin.common.AccessTokenHolder -->
+    <tokenHolderClass>com.riversoft.weixin.common.DefaultAccessTokenHolder</tokenHolderClass>
+    <agents>
+        <agentSetting>
+            <!--  应用id-->
+            <agentId>1000034</agentId>
+            <!--  应用id-->
+            <secret>25I3GnOsMjM5glsCdG5OiKlZqBbJcChOg7-64p-VaNY</secret>
+            <!--  应用名称-->
+            <name>default</name>
+            <!--  回调地址-->
+            <callbackUrl>http://test.com</callbackUrl>
+            <!-- token-->
+            <token>token</token>
+            <!-- 加密方式-->
+            <aesKey>aesKey</aesKey>
+        </agentSetting>
+    </agents>
+</CorpSetting>

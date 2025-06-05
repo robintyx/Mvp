@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>cn.microvideo.framework3.project</groupId>
+        <artifactId>mvpd</artifactId>
+        <version>${revision}</version>
+        <relativePath>../../../pom.xml</relativePath>
+    </parent>
+
+    <groupId>cn.microvideo.framework3.project</groupId>
+    <artifactId>db-acg-test</artifactId>
+    <packaging>jar</packaging>
+
+    <name>Mvpd::Db::Acg::Test</name>
+
+    <properties>
+        <main.basedir>${project.parent.basedir}</main.basedir>
+    </properties>
+
+
+    <dependencies>
+        <!-- 系统初始化配置 -->
+        <dependency>
+            <groupId>cn.microvideo.framework3.core</groupId>
+            <artifactId>microvideo-core-initialization</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.microvideo.framework3.support</groupId>
+            <artifactId>microvideo-support-mybatis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.microvideo.framework3.core</groupId>
+            <artifactId>microvideo-core-scg-user</artifactId>
+        </dependency>
+    </dependencies>
+	
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>

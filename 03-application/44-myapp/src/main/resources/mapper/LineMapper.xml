@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.microvideo.framework3.project.mapper.LineMapper">
+    <select id="selectAll" resultType="cn.microvideo.framework3.project.entity.Line">
+        SELECT f_int_line_id                                                         AS line_id,
+               f_vc_line_name                                                        AS line_name,
+               JSON_EXTRACT(ST_AsGeoJSON(f_geom_line_spatial_data), '$.coordinates') AS coordinates,
+               thl.f_int_company_id                                                  AS company_id,
+               thc.f_vc_company_name                                                 AS company_name,
+               thl.f_int_section_id                                                  AS section_id,
+               ths.f_vc_section_name                                                 AS section_name,
+               f_int_status                                                          AS status
+        FROM t_hw_line thl
+                 JOIN t_hw_company thc on thc.f_int_company_id = thl.f_int_company_id
+                 JOIN t_hw_section ths on thl.f_int_section_id = ths.f_int_section_id
+        WHERE thl.f_int_data_del_flag = 0 ORDER BY f_int_line_id ASC
+    </select>
+    <select id="selectById" resultType="cn.microvideo.framework3.project.entity.Line">
+        SELECT f_int_line_id                                                         AS line_id,
+               f_vc_line_name                                                        AS line_name,
+               JSON_EXTRACT(ST_AsGeoJSON(f_geom_line_spatial_data), '$.coordinates') AS coordinates,
+               thl.f_int_company_id                                                  AS company_id,
+               thc.f_vc_company_name                                                 AS company_name,
+               thl.f_int_section_id                                                  AS section_id,
+               ths.f_vc_section_name                                                 AS section_name,
+               f_int_status                                                          AS status
+        FROM t_hw_line thl
+                 JOIN t_hw_company thc on thc.f_int_company_id = thl.f_int_company_id
+                 JOIN t_hw_section ths on thl.f_int_section_id = ths.f_int_section_id
+        WHERE f_int_line_id = #{id}
+          AND thl.f_int_data_del_flag = 0
+    </select>
+    <update id="deleteById">
+        UPDATE t_hw_line
+        SET f_int_data_del_flag = 1
+        WHERE f_int_line_id = #{id}
+          AND f_int_data_del_flag = 0
+    </update>
+    <insert id="insertLine" parameterType="cn.microvideo.framework3.project.entity.Line">
+        INSERT INTO t_hw_line (f_vc_line_name,
+                               f_geom_line_spatial_data,
+                               f_int_company_id,
+                               f_int_section_id)
+        VALUES (#{line_name},
+                ST_GeomFromText(#{wkt}, 4326),
+                #{company_id},
+                #{section_id})
+    </insert>
+    <update id="updateLine">
+        UPDATE t_hw_line
+        SET f_vc_line_name       = #{line_name},
+            f_geom_line_spatial_data = ST_GeomFromText(#{wkt}, 4326),
+            f_int_company_id     = #{company_id},
+            f_int_section_id     = #{section_id},
+            f_int_status         = #{status},
+            f_dt_data_update_time = now()
+        WHERE f_int_line_id = #{line_id}
+          AND f_int_data_del_flag = 0
+    </update>
+</mapper>

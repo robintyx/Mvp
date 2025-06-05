@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.microvideo.framework3.project.mapper.StakeMapper">
+    <select id="findAll" resultType="cn.microvideo.framework3.project.entity.Stake">
+        SELECT ths.f_int_stake_id  AS stake_id,
+               ths.f_vc_stake_name AS stake_name,
+               ths.f_int_line_id   AS line_id,
+               thl.f_vc_line_name  AS line_name
+        FROM t_hw_stake ths
+                 JOIN t_hw_line thl on thl.f_int_line_id = ths.f_int_line_id
+        WHERE ths.f_int_data_del_flag = 0
+          AND ths.f_int_data_del_flag = 0
+    </select>
+    <select id="getStakeById" resultType="cn.microvideo.framework3.project.entity.Stake">
+        SELECT ths.f_int_stake_id  AS stake_id,
+               ths.f_vc_stake_name AS stake_name,
+               ths.f_int_line_id   AS line_id,
+               thl.f_vc_line_name  AS line_name
+        FROM t_hw_stake ths
+                 JOIN t_hw_line thl on thl.f_int_line_id = ths.f_int_line_id
+        WHERE ths.f_int_stake_id = #{id}
+          AND ths.f_int_data_del_flag = 0
+    </select>
+    <insert id="insertStake" parameterType="cn.microvideo.framework3.project.entity.Stake">
+        INSERT INTO t_hw_stake(f_vc_stake_name,
+                               f_int_line_id)
+        VALUES (#{stake_name},
+                #{line_id})
+    </insert>
+    <update id="updateStake">
+        UPDATE t_hw_stake
+        SET f_vc_stake_name = #{stake_name},
+            f_int_line_id   = #{line_id}
+        WHERE f_int_stake_id = #{stake_id}
+          AND f_int_data_del_flag = 0
+    </update>
+    <update id="deleteStakeById">
+        UPDATE t_hw_stake
+        SET f_int_data_del_flag = 1
+        WHERE f_int_stake_id = #{stakeId}
+          AND f_int_data_del_flag = 0
+    </update>
+</mapper>

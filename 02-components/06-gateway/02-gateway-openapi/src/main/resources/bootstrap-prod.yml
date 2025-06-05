@@ -1,0 +1,27 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+    web-application-type: REACTIVE
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher  #解决org.springframework.context.ApplicationContextException: Failed to start bean 'documentationPluginsBootstrapper'; nested exception is java.lang.NullPointerException
+  cloud:
+    nacos:
+      discovery:
+        # 服务注册地址
+        server-addr: 192.168.102.54:8848
+        namespace: ningcw
+        group: DEFAULT_GROUP
+      username: nacos
+      password: b0357430c8ff28100bdf4725e7abe22c
+      config:
+        # 配置中心地址
+        server-addr: 192.168.102.54:8848
+        username: nacos
+        password: b0357430c8ff28100bdf4725e7abe22c
+        enabled: true
+        namespace: ningcw
+        extension-configs[0]:
+          data-id: gateway.openapi.config.system.yaml
+          group: DEFAULT_GROUP
+          refresh: true

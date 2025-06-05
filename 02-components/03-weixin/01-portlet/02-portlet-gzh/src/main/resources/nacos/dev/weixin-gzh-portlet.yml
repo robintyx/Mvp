@@ -1,0 +1,80 @@
+server:
+  port: 15082
+  tomcat:
+    threads:
+      min-spare: 50 #最小线程数
+      max: 10000 #最大线程数
+    max-connections: 5000 #最大连接数
+    uri-encoding: UTF-8 #编码方式
+    max-http-form-post-size: 0 #post提交数据最大大小，设置为0不限制
+    connection-timeout: 10000 #连接超时时间
+  servlet:
+    session:
+      timeout: 7200s
+    context-path: /portlet
+
+spring:
+  application:
+    name: weixin-gzh-portlet
+  session:
+    store-type: redis
+    redis:
+      flush-mode: ON_SAVE
+      namespace: spring:session
+  data:
+    redis:
+      host: 192.168.103.190
+      port: 6379
+      password: Gd123aA
+      database: 9
+      lettuce:
+        pool:
+          max-idle: 16
+          max-active: 500
+          min-idle: 8
+      timeout: 1000
+  jmx:
+    enabled: false
+  resources:
+    add-mappings: false
+  main:
+    allow-bean-definition-overriding: true
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+  thymeleaf:
+    suffix: .html
+    cache: false
+    prefix: classpath:/templates/
+    mode: HTML5
+    encoding: UTF-8
+
+logging:
+  config: classpath:logback.xml
+  level:
+    root: info
+
+microvideo:
+  openid: #系统维护中时  运维人员openid放行 可以把开个放置在redis中
+      list:
+        - {openid: 'xxxxxx' ,mobile: '11111' ,name: '测试' }
+        - {openid: 'xxxxxx' ,mobile: '11111' ,name: '测试' }
+  crypto:
+    aes:
+      mode: CBC
+      padding: PKCS7Padding
+      key: a12C456456ABUAEA
+      iv: AYgjCEYMUrj2W8xM
+
+  filter:
+    skip-enable: true
+    domain: wxgzhcs.jchc.cn #本地测试域名地址
+    error-redirect: /error/notuser
+    sm-redirect: /system/maintaining #维护中提示页面
+  deploy:
+    version: 20230223190000 #前端发布版本号
+  system:
+    maintaining:
+      enable: false #系统是否在维护中  可以把开个放置在redis中
+

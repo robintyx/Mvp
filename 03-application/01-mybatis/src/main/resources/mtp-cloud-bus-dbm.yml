@@ -1,0 +1,130 @@
+spring:
+  application:
+    name: ${business.cloud_bus_dbm.app_name}
+  profiles:
+    active: default
+  cloud:
+    nacos:
+      discovery:
+        namespace: ${resources.main_nacos.namespace.mtp}
+        server-addr: ${resources.main_nacos.server_address}
+  session:
+    store-type: redis
+    redis:
+      flush-mode: ON_SAVE
+      namespace: spring:session
+  jmx:
+    enabled: false
+  resources:
+    add-mappings: false
+  servlet:
+   multipart:
+     max-file-size: 20MB
+
+server:
+  port: ${business.cloud_bus_dbm.server.port}
+  tomcat:
+    threads:
+      min-spare: 30 #最小线程数
+      max: 1000 #最大线程数
+    max-connections: 500 #最大连接数
+    uri-encoding: UTF-8 #编码方式
+    max-http-form-post-size: 0 #post提交数据最大大小，设置为0不限制
+    connection-timeout: 10000 #连接超时时间
+  servlet:
+    session:
+      timeout: 7200s
+    context-path: /dbm
+knife4j:
+  enable: true
+  setting:
+    language: zh-CN
+    enableSwaggerModels: false
+    enableHomeCustom: true
+    homeCustomLocation: classpath:knife4j/home.md
+    enableFooter: false
+    enableFooterCustom: true
+    footerCustomContent: Apache License 2.0 | Copyright  2021-[南京感动科技有限公司]
+  basic:
+    enable: true
+    username: microvideo
+    password: microvideo@2021
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+microvideo:
+  mybatis:
+    mapperLocation: classpath*:cn/microvideo/mapper/xml/*.xml,classpath*:mapper/*.xml
+    typeAliasesPackage: cn.microvideo.*.*.mapper
+    configLocation: classpath:mybatis-config.xml
+    #连接池空闲连接的有效时间 ，设置30分钟
+    minEvictableIdleTimeMilis: 1800000
+    #空闲连接回收的时间间隔，与test-while-idle一起使用，设置5分钟
+    timeBetweenEvictionRunsMilis: 3000000
+    #验证连接的有效性
+    testWhileIdle: false
+    #初始化连接
+    initialSize: 30
+    #最大空闲连接
+    maxIdle: 20
+    #最小空闲连接
+    minIdle: 5
+    #最大连接数量
+    maxActive: 90
+    #超时等待时间以毫秒为单位 6000毫秒/1000等于60秒
+    maxWait: 60000
+    validationQuery: select 1
+    master:
+      url: jdbc:mysql://${resources.main_mysql_single.node_0}/${resources.main_mysql_single.account.main.database.mtp_main}?useSSL=false&useUnicode=true&characterEncoding=utf-8
+      username: ${resources.main_mysql_single.account.main.user}
+      password: ${resources.main_mysql_single.account.main.pwd}
+      driver-class-name: com.mysql.cj.jdbc.Driver
+    slave1:
+      url: jdbc:mysql://${resources.main_mysql_single.node_0}/${resources.main_mysql_single.account.main.database.mtp_main}?useSSL=false&useUnicode=true&characterEncoding=utf-8
+      username: ${resources.main_mysql_single.account.main.user}
+      password: ${resources.main_mysql_single.account.main.pwd}
+      driver-class-name: com.mysql.cj.jdbc.Driver
+chae:
+  bus-dbm:
+    kafka:
+      topic:
+        driver-topic: ${business.cloud_bus_dbm.kafka.driver.topic}
+        vehicle-topic: ${business.cloud_bus_dbm.kafka.vehicle.topic}
+        alarm-type-topic: ${business.cloud_bus_dbm.kafka.alarm_type.topic}
+        org-topic: ${business.cloud_bus_dbm.kafka.org_topic.topic}
+        device-access-standard-topic: ${business.cloud_bus_dbm.kafka.device_access_standard.topic}
+        vsp-access-standard-topic: ${business.cloud_bus_dbm.kafka.vsp_access_standard.topic}
+  ddict: #字典客户端配置
+    client:
+      enable: true
+      name: Ddict
+      host: ${business.ddict_manage.client_ip}
+      port: ${business.ddict_manage.client_port}
+      appId: mtp-dbm
+  redis:
+    cluster:
+      nodes:
+        - {host: ${resources.main_redis_cluster.node_0.host}, port: ${resources.main_redis_cluster.node_0.port}, type: MASTER}
+        - {host: ${resources.main_redis_cluster.node_1.host}, port: ${resources.main_redis_cluster.node_1.port}, type: SLAVE}
+        - {host: ${resources.main_redis_cluster.node_2.host}, port: ${resources.main_redis_cluster.node_2.port}, type: MASTER}
+        - {host: ${resources.main_redis_cluster.node_3.host}, port: ${resources.main_redis_cluster.node_3.port}, type: SLAVE}
+        - {host: ${resources.main_redis_cluster.node_4.host}, port: ${resources.main_redis_cluster.node_4.port}, type: MASTER}
+        - {host: ${resources.main_redis_cluster.node_5.host}, port: ${resources.main_redis_cluster.node_5.port}, type: SLAVE}
+      password: ${resources.main_redis_cluster.pwd}
+    pool:
+      enabled: true
+      maxWaitMillis: 3000 #最大建立连接等待时间。如果超过此时间将接到异常。设为-1表示无限制
+      maxTotal: 50 #最大连接数
+      maxActive: 50 #最大激活连接数
+      maxIdle: 10  #最大空闲连接数
+  kafkaproducers:
+    producers:
+      - {
+        code: 'Addition' ,
+        bootstrapServers: '${resources.main_kafka_cluster.bootstrap_servers}' ,
+        keySerializer: 'org.apache.kafka.common.serialization.StringSerializer' ,
+        valueSerializer: 'org.apache.kafka.common.serialization.StringSerializer',
+        props: ${resources.main_kafka_cluster.extra_props}
+      }

@@ -1,0 +1,12 @@
+<AppSetting>
+    <appId>ww206a2f08bbd53992</appId>
+    <secret>25I3GnOsMjM5glsCdG5OiKlZqBbJcChOg7-64p-VaNY</secret>
+    <tokenHolderClass>com.riversoft.weixin.common.DefaultAccessTokenHolder</tokenHolderClass>
+    <hosts>172.22.140.2:6381,172.22.140.2:6382,172.22.140.2:6383</hosts>
+    <timeout>10000</timeout>
+    <maxtotal>200</maxtotal>
+    <maxidle>10</maxidle>
+    <maxwaitmillis>1000</maxwaitmillis>
+    <cptokenkey>YJBZH_CP:YJBZH_WCP_TOKEN_KEY</cptokenkey>
+    <cpjsticketkey>YJBZH_CP:YJBZH_WCP_TICKET_KEY</cpjsticketkey>
+</AppSetting>

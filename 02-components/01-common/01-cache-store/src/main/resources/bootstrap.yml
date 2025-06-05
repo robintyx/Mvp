@@ -1,0 +1,58 @@
+knife4j:
+  enable: true
+  setting:
+    language: zh-CN
+    enableSwaggerModels: false
+    enableHomeCustom: true
+    homeCustomLocation: classpath:knife4j/home.md
+    enableFooter: false
+    enableFooterCustom: true
+    footerCustomContent: Apache License 2.0 | Copyright  2021-[南京感动科技有限公司]
+  basic:
+    enable: true
+    username: microvideo
+    password: microvideo@2021351
+
+# springdoc-openapi项目配置
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: 'default'
+      paths-to-match: '/**'
+      packages-to-scan: com.xiaominfo.knife4j.demo.web
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher  #解决org.springframework.context.ApplicationContextException: Failed to start bean 'documentationPluginsBootstrapper'; nested exception is java.lang.NullPointerException
+  cloud:
+    nacos:
+      discovery:
+        # 服务注册地址
+        server-addr: 192.168.103.190:8848
+        enabled: true
+        namespace: framework3
+        group: example
+      username: nacos
+      password: nacos
+      config:
+        # 配置中心地址
+        server-addr: 192.168.103.190:8848
+        username: nacos
+        password: nacos
+        enabled: true
+        # 配置文件格式
+        file-extension: yml
+        namespace: framework3
+        extension-configs[0]:
+          data-id: cache-store.yml
+          group: example
+          refresh: true
+

@@ -1,0 +1,132 @@
+server:
+  port: 5081
+  tomcat:
+    threads:
+      min-spare: 50 #最小线程数
+      max: 10000 #最大线程数
+    max-connections: 5000 #最大连接数
+    uri-encoding: UTF-8 #编码方式
+    max-http-form-post-size: 0 #post提交数据最大大小，设置为0不限制
+    connection-timeout: 10000 #连接超时时间
+  servlet:
+    session:
+      timeout: 7200s
+    context-path: /mybatis
+
+# springdoc-openapi项目配置
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    #operations-sorter: order
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: 'default'
+      display-name: '感动'
+      paths-to-match: '/**'
+      packages-to-scan: cn.microvideo
+  default-flat-param-object: true
+knife4j:
+  enable: true
+  cors: false
+  production: false
+  setting:
+    language: zh-CN
+    enable-swagger-models: false
+    enable-home-custom: true
+    home-custom-path: classpath:knife4j/home.md
+    enable-footer: false
+    enable-footer-custom: true
+    footer-custom-content: Apache License 2.0 | Copyright  2021-[南京感动科技有限公司]
+  documents:
+    - name: 标题1
+      locations: classpath:knife4j/home.md
+  basic:
+    enable: true
+    username: microvideo
+    password: 2f9eff6300070940f8c0405bfbc58aaa5b352bdb129b871b090368a112819ef2
+
+spring:
+  application:
+    name: mybatis
+  session:
+    store-type: redis
+    redis:
+      flush-mode: ON_SAVE
+      namespace: spring:session
+  jmx:
+    enabled: false
+  resources:
+    add-mappings: false
+  main:
+    allow-bean-definition-overriding: true
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 1
+      max-active: 3
+      max-wait: 60000
+      test-on-borrow: false
+      test-on-return: false
+      test-while-idle: true
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 1
+      # 配置监控统计拦截的filters
+      filters: stat,slf4j
+      filter:
+        stat:
+          enabled: true
+          log-slow-sql: true
+          slow-sql-millis: 5000
+      stat-view-servlet:
+        login-username: admin
+        login-password: admin
+        enabled: true
+        allow: 127.0.0.1
+        url-pattern: /druid/*
+        reset-enable: fasle
+      web-stat-filter:
+        enabled: true
+        session-stat-enable: true
+        sessionStatMaxCount: 20
+        url-pattern: /*
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+
+logging:
+  config: classpath:logback.xml
+  level:
+    root: info
+
+microvideo:
+  mybatis:
+    mapperLocation: classpath*:cn/microvideo/mapper/xml/*.xml,classpath*:mapper/*.xml
+    typeAliasesPackage: cn.microvideo.*.*.mapper
+    configLocation: classpath:mybatis-config.xml
+    master:
+      url: jdbc:mysql://127.0.0.1:3306/framework3-test?useSSL=false&useUnicode=true&characterEncoding=utf-8&useUnicode=true&characterEncoding=utf-8&allowPublicKeyRetrieval=true
+      username: root
+      password: 6dd16cb81e585203b27f418165e91807
+      driver-class-name: com.mysql.cj.jdbc.Driver
+    slave1:
+      url: jdbc:mysql://127.0.0.1:3306/mv_nacos_p?useSSL=false&useUnicode=true&characterEncoding=utf-8&useUnicode=true&characterEncoding=utf-8&allowPublicKeyRetrieval=true
+      username: root
+      password: 6dd16cb81e585203b27f418165e91807
+      driver-class-name: com.mysql.cj.jdbc.Driver
+
+  common:
+    redis:
+      host: 192.168.103.190
+      port: 6379
+      password: Gd123aA
+      database: 11
+      pool:
+        enabled: true
+        maxWaitMillis: 3000 #最大建立连接等待时间。如果超过此时间将接到异常。设为-1表示无限制
+        maxTotal: 50 #最大连接数
+        maxActive: 50 #最大激活连接数
+        maxIdle: 10  #最大空闲连接数

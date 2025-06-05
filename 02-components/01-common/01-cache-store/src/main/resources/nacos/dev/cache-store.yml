@@ -1,0 +1,49 @@
+server:
+  port: 5081
+  tomcat:
+    threads:
+      min-spare: 50 #最小线程数
+      max: 10000 #最大线程数
+    max-connections: 5000 #最大连接数
+    uri-encoding: UTF-8 #编码方式
+    max-http-form-post-size: 0 #post提交数据最大大小，设置为0不限制
+    connection-timeout: 10000 #连接超时时间
+  servlet:
+    session:
+      timeout: 7200s
+    context-path: /cache-store
+
+spring:
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+  application:
+    name: cache-store
+
+  jmx:
+    enabled: false
+  resources:
+    add-mappings: false
+  main:
+    allow-bean-definition-overriding: true
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+
+logging:
+  config: classpath:logback.xml
+  level:
+    root: info
+
+microvideo:
+  cache:
+    name: 'microvideoSupportCacheRedisRepository' #microvideoSupportCacheCaffeineRepository  microvideoSupportCacheRedisRepository
+    caffeine:
+      removalListenerName: 'ExampleRemovalListener' #缓存清除监听器名称
+      maximumSize: 1000 #缓存最大条数
+      expireDuration: -1 #缓存写入后过期时间 单位秒 -1永久
+    redis:
+      host: '192.168.103.190'
+      port: 6379
+      password: 'Gd123aA'
+      database: 9

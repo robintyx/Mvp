@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html xmlns:th="//www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>WebSocket测试页面</title>
+    <script type="text/javascript" th:src="@{/static/js/jquery.js}" src="../../static/js/jquery.js"></script>
+    <script type="text/javascript" th:src="@{/static/js/sockjs.min.js}" src="../../static/js/sockjs.min.js"></script>
+    <script type="text/javascript" th:src="@{/static/js/stomp.js}" src="../../static/js/stomp.js"></script>
+</head>
+<body>
+<div>
+    <button id="connect">连接</button>
+    <button id="disconnect" disabled="disabled">断开</button>
+</div>
+<div>
+    <h3>广播形式</h3>
+    <button id="broadcastButton">发送</button><input id="broadcastText" type="text">
+    <label>广播消息：</label><input id="broadcastMsg" type="text" disabled="disabled">
+</div>
+<div>
+    <h3>订阅形式</h3>
+    <label>订阅消息：</label><input id="subscribeMsg" type="text" disabled="disabled">
+</div>
+<div>
+    <h3>角色形式</h3>
+    <button id="userButton">发送</button><input id="userText" type="text">
+    <label>用户消息：</label><input id="userMsg" type="text" disabled="disabled">
+</div>
+<div>
+    <h3>无APP</h3>
+    <button id="appButton">发送</button><input id="appText" type="text">
+    <label>前端消息：</label><input id="appMsg" type="text" disabled="disabled">
+</div>
+</form>
+
+</body>
+<script>
+    var DATA;//所有基础数据的集合
+    var CITY_MAP= {};//所有地市的信息
+    var TYPE_LIST= {}//所有类型的集合
+    var CITY_LIST= {};//所有地市的集合
+    var CITY_SUM_MAP={};//每个地市 每种数据类型的数据量
+
+    var DATA_TYPE_MAP={} //每个过滤后的数据类型对应的数据集合
+
+    var stomp = null;
+    $("#connect").click(function () {
+        var url = "http://localhost:8080/jsgs-websocket/websocket"
+        // var url="https://wxgzhwscs.jchc.cn/jsgs-websocket/websocket";
+        var socket = new SockJS(url);
+        stomp = Stomp.over(socket);
+        //连接
+        stomp.connect({token:"UVZRdE9ERTJOQzF2VkVGU2MzUmlSR2hzZUhWa1VFWkpjVEJLZHpWVVJrZGFPWFo0UmpocGJTeG5jbTkxY0Y4eA=="}, function (frame) {
+            //订阅广播
+            stomp.subscribe("/topic/broadcast", function (res) {
+                $("#broadcastMsg").val(res.body);
+            });
+            //订阅，一般只有订阅的时候在返回
+            stomp.subscribe("/app/subscribe/1", function (res) {
+                $("#subscribeMsg").val(res.body);
+            });
+            //用户模式
+            stomp.subscribe("/user/queue/message", function (res) {
+                $("#userMsg").val(res.body);
+            });
+            //无APP
+            stomp.subscribe("/topic/app", function (res) {
+                $("#appMsg").val(res.body);
+            });
+            setConnect(true);
+        });
+    });
+
+    $("#disconnect").click(function () {
+        if (stomp != null) {
+            stomp.disconnect();
+        }
+        setConnect(false);
+    });
+    //设置按钮
+    function setConnect(connectStatus) {
+        $("#connect").attr("disabled", connectStatus);
+        $("#disconnect").attr("disabled", !connectStatus);
+    }
+
+    //发送广播消息
+    $("#broadcastButton").click(function () {
+        stomp.send("/app/broadcast", {}, JSON.stringify($("#broadcastText").val()))
+    });
+
+    //发送用户消息
+    $("#userButton").click(function () {
+        stomp.send("/app/chat", {}, JSON.stringify($("#userText").val()))
+    });
+
+    //发送web消息
+    $("#appButton").click(function () {
+        stomp.send("/topic/app", {}, JSON.stringify($("#appText").val()))
+    });
+
+    //excel下载
+    $("#excelDownload").click(function () {
+        var url="/demo/excel/download/test";
+        location.href=url;
+    });
+
+    $("#jsDataTest").click(function () {
+        var url="/demo/test/js/test";
+        ajax(url,"233434");
+    });
+
+
+
+    $("#jsDataTestG0025").click(function () {
+        //重置 CITY_SUM_MAP
+        clearSumMap();
+        $.each(DATA,function(index,item){
+            if(item.luxianCode=='G0025'){
+                if(CITY_SUM_MAP[item.xzqCode]!=null){
+                    CITY_SUM_MAP[item.xzqCode][item.dataType]=CITY_SUM_MAP[item.xzqCode][item.dataType]+1;
+                }
+            }
+        });
+        console.log("结果数据");
+        console.dir(CITY_SUM_MAP);
+    });
+
+    $("#jsDataTestG2503").click(function () {
+        //重置 CITY_SUM_MAP
+        clearSumMap();
+        $.each(DATA,function(index,item){
+            if(item.luxianCode=='G2503'){
+                if(CITY_SUM_MAP[item.xzqCode]!=null){
+                    CITY_SUM_MAP[item.xzqCode][item.dataType]=CITY_SUM_MAP[item.xzqCode][item.dataType]+1;
+                }
+            }
+        });
+        console.log("结果数据");
+        console.dir(CITY_SUM_MAP);
+    });
+
+    //重置 DATA_TYPE_MAP 每个过滤后的数据类型对应的数据集合
+    function clearDataTypeMap(){
+        console.log("重置前");
+        console.dir(DATA_TYPE_MAP);
+        $.each(TYPE_LIST,function(index,item){
+            DATA_TYPE_MAP[item.code]=[];
+        });
+        console.log("重置后");
+        console.dir(DATA_TYPE_MAP);
+    }
+
+    //重置 CITY_SUM_MAP
+    function clearSumMap(){
+        console.log("重置前");
+        console.dir(CITY_SUM_MAP);
+        $.each(CITY_LIST,function(index,item){
+            var typeJson={};
+            $.each(TYPE_LIST,function(index,typeItem){
+                typeJson[typeItem.code]=0;
+            });
+            CITY_SUM_MAP[item.xzqCode]=typeJson;
+        });
+        console.log("重置后");
+        console.dir(CITY_SUM_MAP);
+    }
+
+    function ajax(url,processId) {
+        $.ajax({
+            type: "POST",
+            url: url,
+            data:{},
+            dataType: 'json',
+            contentType: 'application/json',
+            beforeSend: function (request) {
+                setHeader(request,processId);
+            },
+            success: function (result) {
+                DATA=null;
+                DATA=result.data.list;
+                TYPE_LIST=result.data.types;
+                CITY_LIST=result.data.citys;
+                $.each(result.data.citys,function(index,item){
+                    CITY_MAP[item.xzqCode]=item;
+                    var typeJson={};
+                    $.each(result.data.types,function(index,typeItem){
+                        typeJson[typeItem.code]=0;
+                    });
+                    CITY_SUM_MAP[item.xzqCode]=typeJson;
+                });
+                console.dir(CITY_SUM_MAP);
+                console.dir(CITY_MAP);
+                console.dir(DATA);
+            }
+        });
+    };
+    function postData(){
+        var url="/demo/excel/upload/test";
+        var formData = new FormData();
+        formData.append("file",$("#excelUpload")[0].files[0]);
+        $.ajax({
+            url:url, /*接口域名地址*/
+            type:'post',
+            data: formData,
+            beforeSend: function (request) {
+                //setHeader(request,"12212")
+            },
+            contentType: false,
+            processData: false,
+            success:function(res){
+                console.log(res);
+            }
+        })
+    }
+
+
+    function setHeader(request,processId) {
+        request.setRequestHeader("token", "<script>alert('apple');<//script>");
+        request.setRequestHeader("busType", "test");
+        request.setRequestHeader("processId", processId);
+        request.setRequestHeader("unit", "test");
+    }
+</script>
+</html>

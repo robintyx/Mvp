@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.microvideo.framework3.project.mapper.CameraMapper">
+    <select id="selectByLineId" resultType="cn.microvideo.framework3.project.entity.Camera">
+        SELECT f_int_camera_id     AS camera_id,
+               f_vc_camera_name    AS camera_name,
+               f_dl_longitude      AS longitude,
+               f_dl_latitude       AS latitude,
+               f_int_direction     AS direction,
+               f_vc_video_url      AS video_url,
+               thc.f_int_status    AS status,
+               thc.f_int_line_id   AS line_id,
+               thc.f_int_type_id   AS type_id,
+               thc.f_int_stake_id  AS stake_id,
+               thct.f_vc_type_name AS type_name,
+               thl.f_vc_line_name  AS line_name,
+               ths.f_vc_stake_name AS stake_name
+        FROM t_hw_camera thc
+                 JOIN t_hw_camera_type thct on thct.f_int_type_id = thc.f_int_type_id
+                 JOIN t_hw_line thl on thl.f_int_line_id = thc.f_int_line_id
+                 JOIN t_hw_stake ths on ths.f_int_stake_id = thc.f_int_stake_id
+        WHERE thc.f_int_line_id = #{line_id}
+          AND thc.f_int_data_del_flag = 0
+    </select>
+    <select id="selectByCameraId" resultType="cn.microvideo.framework3.project.entity.Camera">
+        SELECT f_int_camera_id     AS camera_id,
+               f_vc_camera_name    AS camera_name,
+               f_dl_longitude      AS longitude,
+               f_dl_latitude       AS latitude,
+               f_int_direction     AS direction,
+               f_vc_video_url      AS video_url,
+               thc.f_int_status    AS status,
+               thc.f_int_line_id   AS line_id,
+               thc.f_int_type_id   AS type_id,
+               thc.f_int_stake_id  AS stake_id,
+               thct.f_vc_type_name AS type_name,
+               thl.f_vc_line_name  AS line_name,
+               ths.f_vc_stake_name AS stake_name
+        FROM t_hw_camera thc
+                 JOIN t_hw_camera_type thct on thct.f_int_type_id = thc.f_int_type_id
+                 JOIN t_hw_line thl on thl.f_int_line_id = thc.f_int_line_id
+                 JOIN t_hw_stake ths on ths.f_int_stake_id = thc.f_int_stake_id
+        WHERE thc.f_int_camera_id = #{camera_id}
+          AND thc.f_int_data_del_flag = 0
+    </select>
+    <select id="selectAll" resultType="cn.microvideo.framework3.project.entity.Camera">
+        SELECT f_int_camera_id     AS camera_id,
+               f_vc_camera_name    AS camera_name,
+               f_dl_longitude      AS longitude,
+               f_dl_latitude       AS latitude,
+               f_int_direction     AS direction,
+               f_vc_video_url      AS video_url,
+               thc.f_int_status    AS status,
+               thc.f_int_line_id   AS line_id,
+               thc.f_int_type_id   AS type_id,
+               thc.f_int_stake_id  AS stake_id,
+               thct.f_vc_type_name AS type_name,
+               thl.f_vc_line_name  AS line_name,
+               ths.f_vc_stake_name AS stake_name
+        FROM t_hw_camera thc
+                 JOIN t_hw_camera_type thct on thct.f_int_type_id = thc.f_int_type_id
+                 JOIN t_hw_line thl on thl.f_int_line_id = thc.f_int_line_id
+                 JOIN t_hw_stake ths on ths.f_int_stake_id = thc.f_int_stake_id
+        WHERE thc.f_int_data_del_flag = 0
+    </select>
+    <update id="deleteByCameraId">
+        UPDATE t_hw_camera
+        SET f_int_data_del_flag   = 1,
+            f_dt_data_update_time = now()
+        WHERE f_int_camera_id = #{camera_id}
+          AND f_int_data_del_flag = 0
+    </update>
+    <update id="updateCamera">
+        UPDATE t_hw_camera
+        SET f_vc_camera_name      = #{camera_name},
+            f_dl_longitude        = #{longitude},
+            f_dl_latitude         = #{latitude},
+            f_int_direction       = #{direction},
+            f_vc_video_url        = #{video_url},
+            f_int_status          = #{status},
+            f_int_line_id         = #{line_id},
+            f_int_type_id         = #{type_id},
+            f_int_stake_id        = #{stake_id},
+            f_dt_data_update_time = now()
+        WHERE f_int_camera_id = #{camera_id}
+          AND f_int_data_del_flag = 0
+    </update>
+    <insert id="insertCamera" parameterType="cn.microvideo.framework3.project.entity.Camera">
+        INSERT INTO t_hw_camera (f_vc_camera_name,
+                                 f_dl_longitude,
+                                 f_dl_latitude,
+                                 f_int_direction,
+                                 f_vc_video_url,
+                                 f_int_status,
+                                 f_int_line_id,
+                                 f_int_type_id)
+        VALUES (#{camera_name},
+                #{longitude},
+                #{latitude},
+                #{direction},
+                #{video_url},
+                #{status},
+                #{line_id},
+                #{type_id})
+    </insert>
+    <select id="selectAllCameraType" parameterType="cn.microvideo.framework3.project.entity.CameraType">
+        SELECT f_int_type_id  AS type_id,
+               f_vc_type_name AS type_name
+        FROM t_hw_camera_type
+        WHERE f_int_data_del_flag = 0
+    </select>
+</mapper>

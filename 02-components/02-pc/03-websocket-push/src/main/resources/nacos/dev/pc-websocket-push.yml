@@ -1,0 +1,52 @@
+server:
+  port: 5081
+  tomcat:
+    threads:
+      min-spare: 50 #最小线程数
+      max: 10000 #最大线程数
+    max-connections: 5000 #最大连接数
+    uri-encoding: UTF-8 #编码方式
+    max-http-form-post-size: 0 #post提交数据最大大小，设置为0不限制
+    connection-timeout: 10000 #连接超时时间
+  servlet:
+    session:
+      timeout: 7200s
+    context-path: /websocket-push
+
+spring:
+  application:
+    name: pc-websocket-push
+  session:
+    store-type: redis
+    redis:
+      flush-mode: ON_SAVE
+      namespace: spring:session
+  jmx:
+    enabled: false
+  resources:
+    add-mappings: false
+  main:
+    allow-bean-definition-overriding: true
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+  thymeleaf:
+    suffix: .html
+    cache: false
+    prefix: classpath:/templates/
+    mode: HTML5
+    encoding: UTF-8
+
+logging:
+  config: classpath:logback.xml
+  level:
+    root: info
+
+microvideo:
+  kafkawebsocket:
+    topic: 'chae_websocket_message_test_topic'
+    kafka:
+      bootstrapServers: '172.23.120.20:9092,172.23.120.22:9092,172.23.120.23:9092'
+      keySerializer: org.apache.kafka.common.serialization.StringSerializer
+      valueSerializer: org.apache.kafka.common.serialization.StringSerializer

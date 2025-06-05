@@ -1,0 +1,8 @@
+from   {镜像仓库地址}:latest
+ARG APP_NAME={应用名}
+ARG ENV_TYPE=production
+ENV APP_NAME=$APP_NAME
+ENV ENV_TYPE=$ENV_TYPE
+VOLUME /root/${APP_NAME}/logs
+COPY ./bin/*  /root/${APP_NAME}/target/
+COPY ./{应用名}/target/{应用名}.jar  /root/${APP_NAME}/target/{应用名}.jar

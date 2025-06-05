@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>cn.microvideo.framework3.project</groupId>
+        <artifactId>mvpd</artifactId>
+        <version>${revision}</version>
+        <relativePath>../../../pom.xml</relativePath>
+    </parent>
+
+    <groupId>cn.microvideo.framework3.project</groupId>
+    <artifactId>component-gateway-openapi</artifactId>
+    <packaging>jar</packaging>
+
+    <name>Mvpd::Component::Gateway::Openapi</name>
+
+    <properties>
+        <main.basedir>${project.parent.basedir}</main.basedir>
+    </properties>
+
+    <dependencies>
+        <!--  alibaba gateway 鉴权网关通用拦截器 -->
+        <dependency>
+            <groupId>cn.microvideo.framework3.support</groupId>
+            <artifactId>microvideo-support-alibaba-gateway-auth-filter-common</artifactId>
+        </dependency>
+
+        <!--  alibaba gateway 防抖 -->
+        <dependency>
+            <groupId>cn.microvideo.framework3.support</groupId>
+            <artifactId>microvideo-support-alibaba-gateway-pds</artifactId>
+        </dependency>
+
+        <!--  alibaba gateway 监听 -->
+        <dependency>
+            <groupId>cn.microvideo.framework3.support</groupId>
+            <artifactId>microvideo-support-alibaba-gateway-listener-ls</artifactId>
+        </dependency>
+
+        <!--  alibaba gateway 日志 处理 -->
+        <dependency>
+            <groupId>cn.microvideo.framework3.support</groupId>
+            <artifactId>microvideo-support-alibaba-gateway-log</artifactId>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>cn.microvideo.framework3.component.gateway.token.MicrovideoGatewayTokenApplication</mainClass>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+            </plugin>
+        </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>*.yml</include>
+                    <include>logback.xml</include>
+                    <include>mapper/*.xml</include>
+                    <include>knife4j/*.*</include>
+                    <include>code.properties</include>
+                </includes>
+                <excludes>
+                    <exclude>**/*.ico</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.ico</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
+</project>

@@ -1,0 +1,161 @@
+body,
+div,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+form,
+fieldset,
+input,
+textarea,
+p,
+blockquote,
+th,
+td {
+    margin: 0;
+    padding: 0;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+fieldset,
+img {
+    border: 0;
+}
+body {
+    color: #555;
+    font-size: 14px;
+    font-family: "微软雅黑", "Microsoft Yahei";
+    background-color: #eee;
+}
+
+input {
+    font-size: 14px;
+    font-family: "微软雅黑", "Microsoft Yahei";
+}
+
+.wrap {
+    width: 500px;
+    height: 200px;
+    padding: 24px;
+    box-sizing: border-box;
+    align-items: center;
+    background-color: #262e57;
+    border-radius: 10px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+.label {
+    height: 40px;
+    line-height: 40px;
+    width: 100%;
+    color: #fff;
+    font-size: 20px;
+    box-sizing: border-box;
+}
+
+.nice-select {
+    width: 445px;
+    padding: 0 10px;
+    height: 38px;
+    border: 1px solid #343055;
+    position: relative;
+    background: #091943 url("./../image/org_bg.png") no-repeat right center;
+    background-size: 18px 12px;
+    background-position-x: 97%;
+    background-position-y: 13px;
+}
+
+.nice-select input {
+    display: block;
+    width: 100%;
+    height: 38px;
+    line-height: 38px \9;
+    border: 0;
+    outline: 0;
+    color: #fff;
+    background: none;
+}
+
+.nice-select ul {
+    width: 100%;
+
+    display: none;
+
+    position: absolute;
+
+    left: -1px;
+
+    top: 38px;
+
+    overflow: hidden;
+
+    background-color: #191f3a;
+
+    max-height: 150px;
+
+    overflow-y: auto;
+
+    /* border: 1px solid #999; */
+
+    border-top: 0;
+
+    /* box-shadow: 0 3px 5px #999; */
+
+    z-index: 9999;
+}
+
+.nice-select ul li {
+    height: 30px;
+    line-height: 30px;
+    overflow: hidden;
+    padding: 0 10px;
+    cursor: pointer;
+    color: #ccc;
+}
+.nice-select ul li.on {
+    background-color: #4385d6;
+}
+.text {
+    min-width: 78px;
+    height: 40px;
+    line-height: 40px;
+    color: #fff;
+}
+.btn-box {
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    margin-top: 26px;
+}
+.btn {
+    width: 77px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    color: #fff;
+    cursor: pointer;
+    border: 1px solid #9093d3;
+    border-radius: 5px;
+    float: right;
+}
+.btn:hover {
+    background-color: #9093d3;
+}
+
+.select-box {
+    display: flex;
+    margin-top: 20px;
+}

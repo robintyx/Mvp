@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>cn.microvideo.framework3</groupId>
+        <artifactId>microvideo-framework3-parent</artifactId>
+        <version>3.0.1-SNAPSHOT</version>
+    </parent>
+
+    <groupId>cn.microvideo.framework3.project</groupId>
+    <artifactId>mvpd</artifactId>
+    <version>${revision}</version>
+    <packaging>pom</packaging>
+    <name>Mvpd</name>
+
+    <properties>
+        <revision>3.0.1-SNAPSHOT</revision>
+    </properties>
+
+    <modules>
+        <module>02-components/01-common/01-cache-store</module>
+        <module>02-components/02-pc/01-portlet</module>
+        <module>02-components/02-pc/02-websocket-server</module>
+        <module>02-components/02-pc/03-websocket-push</module>
+        <module>02-components/03-weixin/01-portlet/01-portlet-qy</module>
+        <module>02-components/03-weixin/01-portlet/02-portlet-gzh</module>
+        <module>02-components/03-weixin/02-token/01-token-common</module>
+        <module>02-components/03-weixin/03-message/01-message-qy</module>
+        <module>02-components/04-transfer/01-transfer-kafka</module>
+        <module>02-components/05-flink/01-flink-kafka-sink-kafka</module>
+        <module>02-components/05-flink/02-flink-kafka-sink-db-mysql</module>
+        <module>02-components/05-flink/03-flink-kafka-sink-db-postgresql</module>
+        <module>02-components/05-flink/04-flink-kafka-sink-db-clickhouse</module>
+        <module>02-components/05-flink/05-flink-kafka-sink-custom</module>
+        <module>02-components/06-gateway/01-gateway-token</module>
+        <module>02-components/06-gateway/02-gateway-openapi</module>
+        <!-- app -->
+        <module>03-application/01-mybatis</module>
+        <module>03-application/44-myapp</module>
+        <!-- services -->
+        <module>04-services/service-test</module>
+        <!-- db -->
+        <module>05-db/acg/mtp-acg-test-1.0</module>
+        <module>05-db/acgi/mtp-acgi-test-impl-1.0</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- db层-->
+            <dependency>
+                <groupId>cn.microvideo.framework3.project</groupId>
+                <artifactId>service-test</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- db层-->
+            <dependency>
+                <groupId>cn.microvideo.framework3.project</groupId>
+                <artifactId>db-acg-test</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.microvideo.framework3.project</groupId>
+                <artifactId>db-acgi-test-impl</artifactId>
+                <version>${revision}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <!-- 单元测试-->
+        <dependency>
+            <groupId>cn.microvideo.framework3.support</groupId>
+            <artifactId>microvideo-support-junit</artifactId>
+        </dependency>
+        <!-- 工具-->
+        <dependency>
+            <groupId>cn.microvideo.framework3.core</groupId>
+            <artifactId>microvideo-core-util</artifactId>
+        </dependency>
+    </dependencies>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-archetype-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+            </plugin>
+
+            <!--            <plugin>
+                            <artifactId>maven-archetype-plugin</artifactId>
+                            <configuration>
+                                <encoding>UTF-8</encoding>
+                            </configuration>
+                        </plugin>-->
+
+        </plugins>
+        <finalName>${project.artifactId}</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>src/main/java</directory>
+            </resource>
+        </resources>
+    </build>
+
+    <repositories>
+        <repository>
+            <id>mcirovieo-maven</id>
+            <name>mcirovieo-maven</name>
+            <url>http://nexus.microvideo.cn/nexus/repository/microvideo-framework-snapshot/</url>
+        </repository>
+    </repositories>
+
+</project>

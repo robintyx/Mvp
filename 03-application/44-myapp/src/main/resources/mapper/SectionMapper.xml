@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.microvideo.framework3.project.mapper.SectionMapper">
+    <select id="selectAll" resultType="cn.microvideo.framework3.project.entity.Section">
+        select f_int_section_id  AS section_id,
+               f_vc_section_name AS section_name
+        from t_hw_section
+    </select>
+</mapper>

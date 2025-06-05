@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assembly
+        xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/2.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/2.0.0 http://maven.apache.org/xsd/assembly-2.0.0.xsd">
+    <id>make-assembly</id>
+    <formats>
+        <format>tar.gz</format>
+    </formats>
+    <includeBaseDirectory>true</includeBaseDirectory>
+    <fileSets>
+    </fileSets>
+
+    <files>
+        <file>
+            <source>target/${project.artifactId}.jar</source>
+            <outputDirectory>${file.separator}</outputDirectory>
+            <destName>microvideo.jar</destName>
+        </file>
+        <file>
+            <source>target/classes/bootstrap-prod.yml</source>
+            <outputDirectory>${file.separator}</outputDirectory>
+            <destName>bootstrap-prod.yml</destName>
+        </file>
+        <file>
+            <source>target/classes/bootstrap-test.yml</source>
+            <outputDirectory>${file.separator}</outputDirectory>
+            <destName>bootstrap-test.yml</destName>
+        </file>
+    </files>
+</assembly>

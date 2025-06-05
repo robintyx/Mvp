@@ -1,0 +1,64 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher  #解决org.springframework.context.ApplicationContextException: Failed to start bean 'documentationPluginsBootstrapper'; nested exception is java.lang.NullPointerException
+  cloud:
+    nacos:
+      discovery:
+        # 服务注册地址
+        server-addr: 192.168.102.54:8848
+        enabled: true
+        namespace: framework3
+        group: example
+      username: nacos
+      password: Nac@s321
+      config:
+        # 配置中心地址
+        server-addr: 192.168.102.54:8848
+        username: nacos
+        password: Nac@s321
+        enabled: true
+        # 配置文件格式
+        file-extension: yml
+        namespace: framework3
+        extension-configs[0]:
+          data-id: weixin-qy-portlet.yml
+          group: example
+          refresh: true
+
+# springdoc-openapi项目配置
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    #operations-sorter: order
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: 'default'
+      display-name: '感动'
+      paths-to-match: '/**'
+      packages-to-scan: cn.microvideo
+  default-flat-param-object: true
+
+knife4j:
+  enable: true
+  cors: false
+  production: false
+  setting:
+    language: zh-CN
+    enable-swagger-models: false
+    enable-home-custom: true
+    home-custom-path: classpath:knife4j/home.md
+    enable-footer: false
+    enable-footer-custom: true
+    footer-custom-content: Apache License 2.0 | Copyright  2021-[南京感动科技有限公司]
+  documents:
+    - name: 标题1
+      locations: classpath:knife4j/home.md
+  basic:
+    enable: true
+    username: microvideo
+    password: microvideo@2021351

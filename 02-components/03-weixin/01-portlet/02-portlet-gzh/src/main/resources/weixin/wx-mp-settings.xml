@@ -1,0 +1,8 @@
+<AppSetting>
+    <!--  是否开启企业微信-->
+    <appId>wx45934ec6ad4</appId>
+    <secret>337dc88227e0558075d5</secret>
+    <token>11</token>
+    <aesKey>11</aesKey>
+    <tokenHolderClass>com.riversoft.weixin.common.DefaultAccessTokenHolder</tokenHolderClass>
+</AppSetting>

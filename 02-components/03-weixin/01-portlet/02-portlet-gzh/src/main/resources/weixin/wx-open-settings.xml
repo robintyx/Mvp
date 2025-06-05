@@ -1,0 +1,5 @@
+<AppSetting>
+    <appId>wx454ec6ad4</appId>
+    <secret>337dc8ad8227e0558075d5</secret>
+    <tokenHolderClass>com.riversoft.weixin.common.DefaultAccessTokenHolder</tokenHolderClass>
+</AppSetting>

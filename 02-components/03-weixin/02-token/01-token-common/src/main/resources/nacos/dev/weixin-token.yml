@@ -1,0 +1,119 @@
+server:
+  port: 16090
+  tomcat:
+    threads:
+      min-spare: 50 #最小线程数
+      max: 10000 #最大线程数
+    max-connections: 5000 #最大连接数
+    uri-encoding: UTF-8 #编码方式
+    max-http-form-post-size: 0 #post提交数据最大大小，设置为0不限制
+    connection-timeout: 10000 #连接超时时间
+  servlet:
+    session:
+      timeout: 7200s
+    context-path: /weixintoken
+
+# springdoc-openapi项目配置
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    #operations-sorter: order
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: 'default'
+      display-name: '感动'
+      paths-to-match: '/**'
+      packages-to-scan: cn.microvideo
+  default-flat-param-object: true
+
+knife4j:
+  enable: true
+  cors: false
+  production: false
+  setting:
+    language: zh-CN
+    enable-swagger-models: false
+    enable-home-custom: true
+    home-custom-path: classpath:knife4j/home.md
+    enable-footer: false
+    enable-footer-custom: true
+    footer-custom-content: Apache License 2.0 | Copyright  2021-[南京感动科技有限公司]
+  documents:
+    - name: 标题1
+      locations: classpath:knife4j/home.md
+  basic:
+    enable: true
+    username: microvideo
+    password: microvideo@2021351
+
+spring:
+  application:
+    name: wxmpp-component-weixintoken
+  session:
+    store-type: redis
+    redis:
+      flush-mode: ON_SAVE
+      namespace: spring:session
+  jmx:
+    enabled: false
+  resources:
+    add-mappings: false
+  main:
+    allow-bean-definition-overriding: true
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+  thymeleaf:
+    suffix: .html
+    cache: false
+    prefix: classpath:/templates/
+    mode: HTML5
+    encoding: UTF-8
+
+logging:
+  config: classpath:logback.xml
+  level:
+    root: info
+
+weixin:
+  token:
+    commToken: https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=%s&corpsecret=%s  #通用获取token
+    mpToken: https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&corpid=%s&secret=%s  #微信小程序获取token
+    tokenKey: mv-wx-token-tn-
+    getTicketUrl: https://qyapi.weixin.qq.com/cgi-bin/get_jsapi_ticket?access_token=%s
+    ticketKey: mv-wx-token-ticket-
+    appNodes:
+      - {
+        appId: "wx44488ede610a77a5",
+        secert: "dc322977d026143836753fa9145ffc0e",
+        getTicket: true,
+        sendKafka: false,
+        tokenTopic: "test5",
+        type: "MP"
+      }
+
+microvideo:
+  common:
+    redis:
+      host: 192.168.103.190
+      port: 6379
+      password: Gd123aA
+      database: 8
+      pool:
+        enabled: true
+        maxWaitMillis: 3000 #最大建立连接等待时间。如果超过此时间将接到异常。设为-1表示无限制
+        maxTotal: 1000 #最大连接数
+        maxActive: 1000 #最大激活连接数
+        maxIdle: 300  #最大空闲连接数
+  kafkaproducers:
+    producers:
+      - {
+        code: 'P1' ,
+        bootstrapServers: '192.168.103.190:9092' ,
+        keySerializer: 'org.apache.kafka.common.serialization.StringSerializer' ,
+        valueSerializer: 'org.apache.kafka.common.serialization.StringSerializer'
+      }
+

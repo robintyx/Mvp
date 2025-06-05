@@ -1,0 +1,2 @@
+#org.springframework.boot.autoconfigure.EnableAutoConfiguration=cn.microvideo.chae.jsgs.cp.websocket.plugins.websocket.config.MicrovideoWebSocketConfiguration,\cn.microvideo.chae.jsgs.cp.websocket.plugins.advice.JsgsAdvice
+

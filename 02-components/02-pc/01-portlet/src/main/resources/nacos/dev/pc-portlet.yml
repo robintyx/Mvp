@@ -1,0 +1,120 @@
+server:
+  port: 39680
+  tomcat:
+    threads:
+      min-spare: 50 #最小线程数
+      max: 10000 #最大线程数
+    max-connections: 5000 #最大连接数
+    uri-encoding: UTF-8 #编码方式
+    max-http-form-post-size: 0 #post提交数据最大大小，设置为0不限制
+    connection-timeout: 10000 #连接超时时间
+  servlet:
+    session:
+      timeout: 7200s
+    context-path: /portlet
+
+# springdoc-openapi项目配置
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    #operations-sorter: order
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: 'default'
+      display-name: '感动'
+      paths-to-match: '/**'
+      packages-to-scan: cn.microvideo
+  default-flat-param-object: true
+
+knife4j:
+  enable: true
+  cors: false
+  production: false
+  setting:
+    language: zh-CN
+    enable-swagger-models: false
+    enable-home-custom: true
+    home-custom-path: classpath:knife4j/home.md
+    enable-footer: false
+    enable-footer-custom: true
+    footer-custom-content: Apache License 2.0 | Copyright  2021-[南京感动科技有限公司]
+  documents:
+    - name: 标题1
+      locations: classpath:knife4j/home.md
+  basic:
+    enable: true
+    username: microvideo
+    password: microvideo@2021351
+
+spring:
+  application:
+    name: pc-portlet
+  session:
+    store-type: redis
+    redis:
+      flush-mode: ON_SAVE
+      namespace: spring:session
+  data:
+    redis:
+      host: 192.168.103.190
+      port: 6379
+      password: Gd123aA
+      database: 9
+      lettuce:
+        pool:
+          max-idle: 16
+          max-active: 500
+          min-idle: 8
+      timeout: 1000
+  jmx:
+    enabled: false
+  resources:
+    add-mappings: false
+  main:
+    allow-bean-definition-overriding: true
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+  thymeleaf:
+    suffix: .html
+    cache: false
+    prefix: classpath:/templates/
+    mode: HTML5
+    encoding: UTF-8
+
+logging:
+  config: classpath:logback.xml
+  level:
+    root: info
+
+web:
+  index:
+    url: http://192.168.103.163/web-portlet/
+    name: 门户主页
+    deployowner: web #前端发布所属项目
+    deployversion: 202311201109 #前端发布版本号
+
+microvideo:
+  qs:
+    url: http://192.168.103.122:28081/QsApi/
+  cas:
+    qs-external-url: http://192.168.103.122:28081/QsApi
+    validation-server-url-prefix: http://192.168.103.163/MicrovideoCAS #可以配置内网地址
+    server-url-prefix: http://192.168.103.163/MicrovideoCAS
+    server-login-url: http://192.168.103.163/MicrovideoCAS/login
+    client-host-url: http://192.168.102.54:39680
+    client-host-index-url: http://192.168.102.54:39680/portlet/
+    server-ignore-url: /static/*|/checkUser/*|/logout/*
+    server-logout-url: http://192.168.103.163/MicrovideoCAS/logout
+    validation-type: CAS
+    client-service: http://192.168.103.163
+    redisPrefix: MIC_PORTLET_
+    access-token: http://192.168.103.163/cas/oidc/accessToken?grant_type=password&client_id=mtp&client_secret=mtp@2023Kf65425487&username=%s&password=%s # 获取token地址
+    revoke-token: http://192.168.103.163/cas/oidc/revoke?token=%s&token_type_hint=refresh_token&client_id=mtp&client_secret=mtp@2023Kf65425487 # 注销token地址
+    profile-token: http://192.168.103.163/cas/oidc/profile?access_token=%s #验证token
+    rsa-pri-key:
+    rsa-pub-key:
+    encrypt-enable: false

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="//www.thymeleaf.org" style="width: 100%;height:100%;overflow:hidden;">
+<head>
+    <meta charset="UTF-8">
+    <title>公共服务客服系统</title>
+    <link rel="shortcut icon" th:href="@{/static/image/favicon.ico}" />
+    <link rel="icon" th:href="@{/static/image/favicon.ico}" />
+    <link rel="stylesheet" th:href="@{/static/css/index.css}" />
+    <script type="text/javascript" th:src="@{/static/js/jquery.js}"  ></script>
+    <script type="text/javascript" th:src="@{/static/js/util.js}"></script>
+    <script th:inline="javascript">
+        var ctxPath  = [[@{/}]];
+        var token = [[${account.token}]];
+        var name = [[${account.name}]];
+        var auths = [[${auths}]];
+        var userinfo = [[${userinfo}]];
+        var webindexurl = [[${webindexurl}]];
+        localStorage.setItem("user_name",name);
+        localStorage.setItem("user_token",token);
+        localStorage.setItem("user_auths",auths);
+        localStorage.setItem("user_info",userinfo);
+
+        //获取token
+        function getToken() {
+            return localStorage.getItem("user_token");
+        }
+        //获取用户信息
+        function getUserName() {
+            return localStorage.getItem("user_name");
+        }
+        //获取菜单
+        function getUserAuths() {
+            return localStorage.getItem("user_auths");
+        }
+        //获取token
+        function getUserInfo() {
+            return localStorage.getItem("user_info");
+        }
+        //获取token
+        function getToken() {
+            return localStorage.getItem("user_token");
+        }
+        //显示loading
+        function showLoading() {
+            $('#portlet-loading').show();
+        }
+        //显示loading
+        function showLoading() {
+            $('#portlet-loading').show();
+        }
+        //显示loading
+        function showLoading() {
+            $('#portlet-loading').show();
+        }
+        //隐藏laoding
+        function hideLoading() {
+            $('#portlet-loading').hide();
+        }
+        //设置iframe src
+        function setMyIframeSrc(src) {
+            hideLoading();
+            $('#myiframe').attr('src',src);
+        }
+        //退出
+        function logout() {
+            localStorage.removeItem("user_name");
+            localStorage.removeItem("user_token");
+            localStorage.removeItem("user_auths");
+            location.href = ctxPath+"/logout"
+        }
+        showLoading();
+        setMyIframeSrc(webindexurl);
+        // //退出
+        // window.parent.logout();
+        // //显示loading
+        // window.parent.showLoading();
+        // //隐藏laoding
+        // window.parent.hideLoading();
+        //
+        // //获取token
+        // window.parent.getToken();
+        // //获取用户名
+        // window.parent.getUserName();
+        // //获取菜单
+        // window.parent.getUserAuths();
+        // //获取用户信息
+        // window.parent.getUserInfo();
+
+    </script>
+</head>
+<body style="height:100%;width:100%;margin:0px;">
+<div id="portlet-loading">
+    <img class="roate"  th:src="@{/static/image/kgLoading.png}" alt="" srcset="" />
+</div>
+<iframe id="myiframe" height="97%" width="100%" style="overflow-y: scroll;overflow-x: hidden;border:0px;padding:0px;width:100%;height:100%;" >
+</iframe>
+</body>
+<script th:inline="javascript">
+    $(document).ready(function(){
+        $("#myiframe").load(function(){
+            hideLoading();
+        });
+        setMyIframeSrc(webindexurl);
+    });
+</script>
+
+</html>

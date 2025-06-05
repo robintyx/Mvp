@@ -1,0 +1,149 @@
+server:
+  port: 15503
+  tomcat:
+    threads:
+      min-spare: 50 #最小线程数
+      max: 10000 #最大线程数
+    max-connections: 5000 #最大连接数
+    uri-encoding: UTF-8 #编码方式
+    max-http-form-post-size: 0 #post提交数据最大大小，设置为0不限制
+    connection-timeout: 10000 #连接超时时间
+  servlet:
+    session:
+      timeout: 7200s
+    context-path: /
+
+spring:
+  application:
+    name: gateway-token
+  jmx:
+    enabled: false
+  resources:
+    add-mappings: false
+  main:
+    allow-bean-definition-overriding: true
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+  thymeleaf:
+    suffix: .html
+    cache: false
+    prefix: classpath:/templates/
+    mode: HTML5
+    encoding: UTF-8
+  cloud:
+    gateway:
+      httpclient:
+        pool:
+          max-idle-time: PT1S
+      enabled: true
+      discovery:
+        locator:
+          lower-case-service-id: true
+      routes:
+        # 数据底座测试
+        - id: mtp-cloud-bus-openapi-ck-dev_route
+          uri: lb://zipkin
+          predicates:
+            - Path=/api/zipkin/**
+          filters:
+            - StripPrefix=1
+          # 测试
+    sentinel:
+      transport:
+        dashboard: localhost:8081
+      filter:
+        enabled: true
+      scg.fallback:
+        mode: response
+        response-status: 500
+        response-body: "{\"success\":false,\"msg\":\"悲剧！接口被限流了！接口被限流了！接口被限流了！接口被限流了\",\"code\":\"sentinel fail\"}"
+      scg:
+        order: -100
+
+feign:
+  client:
+    config:
+      default: #这里default就是全局配置，如果是写服务名称，则是针对某个微服务的配置
+        LoggerLevel: FULL
+
+management:
+  endpoints:
+    web:
+      discovery:
+        enabled: false
+  tracing:
+    sampling:
+      probability: 1.0
+  zipkin:
+    tracing:
+      endpoint: http://192.168.103.163:9411/api/v2/spans
+
+microvideo:
+  gateway:
+    nacos:
+      namespace: ningcw
+      groupId: gateway
+      api:
+        id: gateway.token.rule.api
+      auth:
+        id: gateway.token.rule.authority
+      degrade:
+        id: gateway.token.rule.degrade
+      flow:
+        id: gateway.token.rule.flow
+      system:
+        id: gateway.token.rule.system
+      secret:
+        common:
+          id: gateway.token.config.secret.properties
+    pds:
+      enable: true
+      redisPrefix: 'PDS'
+      limit: 3
+      time: 500
+      ignores:
+        - '/commonFunc/position/coordinate'
+        - '/commonFunc/types'
+        - '/supervise/alarm/list'
+        - '/device/ftp/get/contents'
+        - '/device/ftp/get/play_path'
+        - '/device/openapi/device/singleCmd'
+    logp:
+      ip: 127.0.0.1
+      systype: 重货平台
+      syscode: mtp
+      sysname: 重货平台
+      kafka:
+        code: GatewayKafkaLog
+        topic: gateway_test
+  qs:
+    url: http://192.168.103.122:28081/QsApi/
+  common:
+    redis:
+      host: '192.168.103.190'
+      port: 6379
+      password: 'Gd123aA'
+      database: 5
+      pool:
+        enabled: true
+        maxWaitMillis: 3000 #最大建立连接等待时间。如果超过此时间将接到异常。设为-1表示无限制
+        maxTotal: 50 #最大连接数
+        maxActive: 50 #最大激活连接数
+        maxIdle: 10  #最大空闲连接数
+  kafkaproducers:
+    producers:
+      - {
+        code: 'GatewayKafkaLog' ,
+        bootstrapServers: '192.168.103.190:9092' ,
+        keySerializer: 'org.apache.kafka.common.serialization.StringSerializer' ,
+        valueSerializer: 'org.apache.kafka.common.serialization.StringSerializer'
+      }
+
+
+
+logging:
+  config: classpath:logback.xml
+  level:
+    root: info

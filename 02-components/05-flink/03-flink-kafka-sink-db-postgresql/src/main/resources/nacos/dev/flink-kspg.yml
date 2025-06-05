@@ -1,0 +1,87 @@
+server:
+  port: 22003
+  tomcat:
+    threads:
+      min-spare: 50 #最小线程数
+      max: 10000 #最大线程数
+    max-connections: 5000 #最大连接数
+    uri-encoding: UTF-8 #编码方式
+    max-http-form-post-size: 0 #post提交数据最大大小，设置为0不限制
+    connection-timeout: 10000 #连接超时时间
+  servlet:
+    session:
+      timeout: 7200s
+    context-path: /flink-kspg
+
+spring:
+  application:
+    name: flink-kspg
+
+  jmx:
+    enabled: false
+  resources:
+    add-mappings: false
+  main:
+    allow-bean-definition-overriding: true
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+
+logging:
+  config: classpath:logback.xml
+  level:
+    root: info
+
+microvideo:
+  flink:
+    name: 测试
+    keyBy: id
+    parallelism: 4
+    maxParallelism: 8
+    enableCheckpointing: false #是否开启Checkpointing
+    maxConcurrentCheckpoints: 1 #同一时间只允许进行一个检查点
+    checkpointTimeout: 6000 #检查点必须在一分钟内完成，或者被丢弃【checkpoint的超时时间】
+    minPauseBetweenCheckpoints: 1000 #确保检查点之间有至少500 ms的间隔【checkpoint最小间隔】
+    checkpointInterval: 6000
+    source:
+      kafka:
+        startingOffsets:  TIMESTAMP  #策略 earliest : 从最早位点开始消费 latest: 从最末尾位点开始消费  timestamp:从时间戳大于等于指定时间戳（毫秒）的数据开始消费.
+        startingOffsetsTimestamp: -3600  #当startingOffsets=timestamp 时 读取历史数据 以当前时间向前偏移秒数.
+        name: MicrovideoFlinkKcKafkaSource
+        bootstrapServers: 192.168.103.190:9092
+        groupId: mtp_MicrovideoFlinkDeviceDbmKafkaSourceGroup
+        parttions:  #flink_source_test_20240715   mtp_device_u_data_topic  mtp_device_u_common_topic
+          - {topic: 'flink_source_test_20240715' ,parttion: 0}
+        props[partition.discovery.interval.ms]: 60000 #每 10 秒检查一次新分区
+#        props[security.protocol]: 'SASL_PLAINTEXT'
+#        props[sasl.mechanism]: 'SCRAM-SHA-256'
+#        props[ssl.truststore.location]: '/home/microvideo/platform-to-dbm-gps/kafka.client.truststore.jks'
+#        props[sasl.jaas.config]: 'org.apache.kafka.common.security.scram.ScramLoginModule required username="sjclq" password="QrUDOf7o9UlGYfyn";'
+    sink:
+      db:
+        sql: 'insert into t_test(F_VC_ID,F_VC_NAME,F_DT_CREATE_TIME,F_DT_UPDATE_TIME,F_INT_DEL_FLAG) '
+        columns:
+          - {key: 'F_VC_ID' ,type: 'String'}
+          - {key: 'F_VC_NAME' ,type: 'String'}
+          - {key: 'F_DT_CREATE_TIME' ,type: 'String'}
+          - {key: 'F_DT_UPDATE_TIME' ,type: 'String'}
+          - {key: 'F_INT_DEL_FLAG' ,type: 'int'}
+        colTime: F_DT_CREATE_TIME
+        driver: 'org.postgresql.Driver'
+        url: 'jdbc:postgresql://192.168.103.190:5432/framework3-test'
+        username: 'root'
+        password: 'Root@123'
+        batchIntervalMs: 30000
+        batchSize: 50
+    filter:
+      key: time
+      offset: 5 #偏移量 单位分钟
+    strategy:
+      restart:
+        type: exponential-delay
+        initialBackoffMs: 5000
+        maxBackoffMs: 36000
+        resetBackoffThresholdMs: 300000
+        backoffMultiplier: 1.2
+        jitterFactor: 0.1

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="//www.thymeleaf.org" style="width: 100%;height:100%;overflow:hidden;">
+<head>
+    <meta charset="UTF-8">
+    <title>公共服务客服系统</title>
+    <link rel="shortcut icon" th:href="@{/static/image/favicon.ico}" />
+    <link rel="icon" th:href="@{/static/image/favicon.ico}" />
+    <link rel="stylesheet" th:href="@{/static/css/index.css}" />
+    <link rel="stylesheet" th:href="@{/static/css/org.css}" />
+    <script type="text/javascript" th:src="@{/static/js/jquery.js}"  ></script>
+    <script type="text/javascript" th:src="@{/static/js/util.js}"></script>
+    <script th:inline="javascript">
+        var ctxPath  = [[@{/}]];
+        var token = [[${account.token}]];
+        var name = [[${account.name}]];
+        var auths = [[${auths}]];
+        var userinfo = [[${userinfo}]];
+        var orgs = [[${orgs}]];
+        var deployPath = [[${deployPath}]];
+
+        localStorage.setItem("user_name",name);
+        localStorage.setItem("user_token",token);
+        localStorage.setItem("user_auths",auths);
+        localStorage.setItem("user_orgs",orgs);
+        localStorage.setItem("user_info",userinfo);
+
+        function setTitle(title) {
+            document.title=title;
+        }
+        //获取token
+        function getToken() {
+            return localStorage.getItem("user_token");
+        }
+        //获取用户信息
+        function getUserName() {
+            return localStorage.getItem("user_name");
+        }
+        //获取菜单
+        function getUserAuths() {
+            return localStorage.getItem("user_auths");
+        }
+        //获取菜单
+        function getUserOrgs() {
+            return localStorage.getItem("user_orgs");
+        }
+        //赋值 登录身份信息
+        function setMasterOrg(value) {
+            return localStorage.setItem("user_master_org",value);
+        }
+        //获取 登录身份信息
+        function getMasterOrg() {
+            return localStorage.getItem("user_master_org");
+        }
+        //获取token
+        function getUserInfo() {
+            return localStorage.getItem("user_info");
+        }
+        //获取token
+        function getToken() {
+            return localStorage.getItem("user_token");
+        }
+        //切换登录身份
+        function showChooseOrg() {
+            localStorage.removeItem("user_master_org");
+            $("#org_val_input").val('');
+            $("#org_input").val("请选择登录身份");
+            $("#org_chooose_ul").empty();
+            $(".wrap").show();
+            var orgs=getUserOrgs();
+            var orgsJsonArr=JSON.parse(orgs);
+            console.log(orgs);
+            if(orgsJsonArr.length==1){
+                $.each(orgsJsonArr, function(index, value) {
+                    var val=JSON.stringify(value);
+                    setMasterOrg(val);
+                    loadWebIndex();
+                });
+            }else{
+                $.each(orgsJsonArr, function(index, value) {
+                    var val=JSON.stringify(value);
+                    var label=value.orgName+"-"+value.deptName;
+                    var $li = "<li data-value='"+val+"' onclick=selectOrg('"+val+"','"+label+"')>"+label+"</li>";
+                    $("#org_chooose_ul").append($li);
+                });
+                $('[name="nice-select"] li').hover(function (e) {
+                    $(this).toggleClass("on");
+                    e.stopPropagation();
+                });
+                $('[name="nice-select"] li').click(function (e) {
+                    var val = $(this).text();
+                    $('[name="nice-select"] ul').hide();
+                    e.stopPropagation();
+                });
+            }
+        }
+        //显示loading
+        function showLoading() {
+            $('#portlet-loading').show();
+        }
+        //显示loading
+        function showLoading() {
+            $('#portlet-loading').show();
+        }
+        //显示loading
+        function showLoading() {
+            $('#portlet-loading').show();
+        }
+        //隐藏laoding
+        function hideLoading() {
+            $('#portlet-loading').hide();
+        }
+        //退出
+        function logout() {
+            localStorage.removeItem("user_name");
+            localStorage.removeItem("user_token");
+            localStorage.removeItem("user_auths");
+            localStorage.removeItem("user_orgs");
+            localStorage.removeItem("user_master_org");
+            location.href = ctxPath+"/logout"
+        }
+
+
+        //切换身份赋值
+        function selectOrg(value,label) {
+            $("#org_val_input").val(value);
+            $("#org_input").val(label);
+        }
+        //设置iframe src
+        function setMyIframeSrc(src) {
+            $('#myiframe').attr('src',src);
+        }
+        //设置i主页地址
+        function loadWebIndex(src) {
+            showLoading();
+            $(".wrap").hide();
+            $('#myiframe').attr('src',deployPath);
+        }
+        // //退出
+        // window.parent.logout();
+        // //显示loading
+        // window.parent.showLoading();
+        // //隐藏laoding
+        // window.parent.hideLoading();
+        //
+        // //获取token
+        // window.parent.getToken();
+        // //获取用户名
+        // window.parent.getUserName();
+        // //获取菜单
+        // window.parent.getUserAuths();
+        // //获取用户信息
+        // window.parent.getUserInfo();
+
+    </script>
+</head>
+<body style="height:100%;width:100%;margin:0px;  position: relative;">
+<div class="wrap" style="display: none" >
+    <div class="label">登录身份选择</div>
+    <div class="select-box">
+        <div class="nice-select" name="nice-select">
+            <hide type="text" id="org_val_input" value="" readonly />
+            <input type="text" id="org_input" value="请选择登录身份" readonly />
+            <ul id="org_chooose_ul">
+            </ul>
+        </div>
+    </div>
+    <div class="btn-box">
+        <div class="btn" id="btn_choose_org">确定</div>
+    </div>
+</div>
+<div id="portlet-loading">
+    <img class="roate"  th:src="@{/static/image/kgLoading.png}" alt="" srcset="" />
+</div>
+<iframe id="myiframe"  height="97%" width="100%" style="overflow-y: scroll;overflow-x: hidden;border:0px;padding:0px;width:100%;height:100%;" >
+</iframe>
+</body>
+<script th:inline="javascript">
+    $(document).ready(function(){
+        hideLoading();
+        $("#myiframe").load(function(){
+            hideLoading();
+        });
+
+        //判断是否选择登录身份
+        // var masterOrg=getMasterOrg();
+        // console.log(masterOrg);
+        // if(masterOrg!=null&&masterOrg!=''){
+        //     loadWebIndex();
+        // }else{
+        //     showChooseOrg();
+        // }
+        showChooseOrg();
+
+        //确定事件
+        $("#btn_choose_org").click(function (e) {
+            var val=$("#org_val_input").val();
+            console.log(val);
+            if(""==val){
+                alert("请选择登录身份");
+            }else{
+                setMasterOrg(val);
+                loadWebIndex();
+            }
+        });
+
+        $('[name="nice-select"]').click(function (e) {
+            $('[name="nice-select"]').find("ul").hide();
+            $(this).find("ul").show();
+            e.stopPropagation();
+        });
+    });
+</script>
+
+</html>

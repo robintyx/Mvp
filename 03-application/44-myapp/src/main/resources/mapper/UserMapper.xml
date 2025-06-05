@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.microvideo.framework3.project.mapper.UserMapper">
+    <select id="selectById" resultType="cn.microvideo.framework3.project.entity.User">
+        SELECT f_int_user_id AS id,
+               f_vc_username AS username,
+               f_vc_password AS password
+        FROM t_hw_user
+        WHERE f_int_user_id = #{id}
+    </select>
+
+    <select id="findAll" resultType="cn.microvideo.framework3.project.entity.User">
+        SELECT f_int_user_id AS id,
+               f_vc_username AS username,
+               f_vc_password AS password
+        FROM t_hw_user
+    </select>
+</mapper>

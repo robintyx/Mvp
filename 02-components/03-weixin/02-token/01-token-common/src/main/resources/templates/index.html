@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="//www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,viewport-fit=cover">
+    <title>微信认证</title>
+    <link rel="stylesheet"   th:href="@{/static/css/weui.css}" href="../../static/css/weui.css" />
+    <script type="text/javascript" th:src="@{/static/js/jquery.js}" src="../../static/js/jquery.js"></script>
+    <script type="text/javascript" th:src="@{/static/js/sockjs.min.js}" src="../../static/js/sockjs.min.js"></script>
+    <script type="text/javascript" th:src="@{/static/js/stomp.js}" src="../../static/js/stomp.js"></script>
+    <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script src="https://res.wx.qq.com/open/libs/weuijs/1.2.1/weui.min.js"></script>
+</head>
+<body ontouchstart>
+<div class="page" id="sucessMsg" style="display: none">
+    <div class="weui-msg">
+        <div class="weui-msg__icon-area"><i class="weui-icon-success weui-icon_msg"></i></div>
+        <div class="weui-msg__text-area">
+            <h2 class="weui-msg__title">登录成功</h2>
+            <p class="weui-msg__desc">3秒钟后页面自动关闭</p>
+        </div>
+        <div class="weui-msg__opr-area">
+            <p class="weui-btn-area">
+            </p>
+        </div>
+        <div class="weui-msg__tips-area">
+            <p class="weui-msg__tips"></p>
+        </div>
+        <div class="weui-msg__extra-area">
+            <div class="weui-footer">
+                <p class="weui-footer__links">
+                </p>
+                <p class="weui-footer__text">Copyright &copy; 2019-2021 microvideo</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="page"  id="failMsg" style="display: none">
+    <div class="weui-msg">
+        <div class="weui-msg__icon-area"><i class="weui-icon-warn weui-icon_msg"></i></div>
+        <div class="weui-msg__text-area">
+            <h2 class="weui-msg__title">登录失败 请联系管理员</h2>
+            <p class="weui-msg__desc">3秒钟后页面自动关闭</p>
+        </div>
+        <div class="weui-msg__tips-area">
+        </div>
+        <div class="weui-msg__opr-area">
+            <p class="weui-btn-area">
+            </p>
+        </div>
+        <div class="weui-msg__extra-area">
+            <div class="weui-footer">
+                <p class="weui-footer__links">
+                </p>
+                <p class="weui-footer__text">Copyright &copy; 2019-2021 microvideo</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="page" id="initMsg" style="display: none">
+    <div class="weui-msg">
+        <div class="weui-msg__icon-area"><i class="weui-icon-success weui-icon_msg"></i></div>
+        <div class="weui-msg__text-area">
+            <h2 class="weui-msg__title">授权中 请稍后</h2>
+        </div>
+        <div class="weui-msg__opr-area">
+            <p class="weui-btn-area">
+            </p>
+        </div>
+        <div class="weui-msg__tips-area">
+            <p class="weui-msg__tips"></p>
+        </div>
+        <div class="weui-msg__extra-area">
+            <div class="weui-footer">
+                <p class="weui-footer__links">
+                </p>
+                <p class="weui-footer__text">Copyright &copy; 2019-2021 microvideo</p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    var stomp = null;
+    var url = "http://q148w68336.imwork.net/cas/qr-websocket"
+    var socket = new SockJS(url);
+    stomp = Stomp.over(socket);
+    let payload = JSON.stringify({'token': '[[${token}]]'});
+    let channelId = "[[${channel}]]";
+    let deviceId = "[[${deviceId}]]";
+
+    //连接
+    stomp.connect({}, function (frame) {
+        console.log("连接监测");
+        stomp.subscribe('/qrtopic/' + channelId + '/verify', function (result) {
+            let body = JSON.parse(result.body);
+            if (body.error) {
+                $("#initMsg").hide();
+                $("#failMsg").show();
+            } else if (body.success) {
+                $("#initMsg").hide();
+                $("#sucessMsg").show();
+                stomp.disconnect();
+                setTimeout("custom_close()",3000);
+            }
+        });
+        console.log("登录验证");
+        stomp.send("/qr/accept", {'QR_AUTHENTICATION_CHANNEL_ID': channelId, 'QR_AUTHENTICATION_DEVICE_ID': deviceId}, payload);
+    });
+    function custom_close(){
+        WeixinJSBridge.call('closeWindow');
+    }
+
+</script>
+</html>

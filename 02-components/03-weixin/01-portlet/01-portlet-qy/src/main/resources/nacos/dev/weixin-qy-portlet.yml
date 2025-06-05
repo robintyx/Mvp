@@ -1,0 +1,95 @@
+server:
+  port: 15081
+  tomcat:
+    threads:
+      min-spare: 50 #最小线程数
+      max: 10000 #最大线程数
+    max-connections: 5000 #最大连接数
+    uri-encoding: UTF-8 #编码方式
+    max-http-form-post-size: 0 #post提交数据最大大小，设置为0不限制
+    connection-timeout: 10000 #连接超时时间
+  servlet:
+    session:
+      timeout: 7200s
+    context-path: /portlet
+
+spring:
+  application:
+    name: weixin-qy-portlet
+  session:
+    store-type: redis
+    redis:
+      flush-mode: ON_SAVE
+      namespace: spring:session
+  data:
+    redis:
+      host: 192.168.103.190
+      port: 6379
+      password: Gd123aA
+      database: 9
+      lettuce:
+        pool:
+          max-idle: 16
+          max-active: 500
+          min-idle: 8
+      timeout: 1000
+  jmx:
+    enabled: false
+  resources:
+    add-mappings: false
+  main:
+    allow-bean-definition-overriding: true
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+  thymeleaf:
+    suffix: .html
+    cache: false
+    prefix: classpath:/templates/
+    mode: HTML5
+    encoding: UTF-8
+
+logging:
+  config: classpath:logback.xml
+  level:
+    root: info
+
+microvideo:
+  deploy:
+    version: 20221130 #前端发布版本号
+  qs:
+    url: http://192.168.103.122:28081/QsApi/
+  filter:
+    skip-enable: true
+    domain: nhdncs.jchc.cn
+    error-redirect: /error/notuser
+    sm-redirect: /system/maintaining #维护中提示页面
+    switch-org-enable: false #企业组织机构开关
+  system:
+    maintaining:
+      enable: false #系统是否在维护中  可以把开个放置在redis中
+      ignore-ids: oppQrxJmtrOmqcv9iywGhoOM-8sM,bbbbb,dddd  #系统维护中时  运维人员放行 可以把开个放置在redis中
+  common:
+    redis:
+      host: 192.168.103.190
+      port: 6379
+      password: Gd123aA
+      database: 8
+      pool:
+        enabled: true
+        maxWaitMillis: 3000 #最大建立连接等待时间。如果超过此时间将接到异常。设为-1表示无限制
+        maxTotal: 1000 #最大连接数
+        maxActive: 1000 #最大激活连接数
+        maxIdle: 300  #最大空闲连接数
+
+cas:
+  client-host-url: http://192.168.103.163
+  access-token: http://192.168.103.163/cas/oidc/accessToken?grant_type=password&client_id=mtp&client_secret=mtp@2023Kf65425487&username=%s&password=%s # 获取token地址
+  revoke-token: http://192.168.103.163/cas/oidc/revoke?token=%s&token_type_hint=refresh_token&client_id=mtp&client_secret=mtp@2023Kf65425487 # 注销token地址
+  profile-token: http://192.168.103.163/cas/oidc/profile?access_token=%s #验证token
+  rsa-pri-key:
+  rsa-pub-key:
+  encrypt-enable: false
+  #rsa-pri-key: MIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQDXkCymjSNsaxgPF33QaFWStunuYrp+wiwewgQbDqeRVHE43ZTqiSiJeQg8JJVmVnhuZfSDP/5/hkzwBmWJdDAetAPipmhLgv974ZzOamXRk35pOu0pjoKlvhfD5DjUgM6iIgswyovFnQTq4RcA2I535NxaOqFKexp1zUeuf0iEUzOPre5MykxhGZdWNHXGk9BCB1SNQdKkx6dcR9yu6ak1dMslpyVaSJlgYXUE5j5ZzhPDfS4EFzQgMVhAJRguEJD1BPEWBPdtp0PQiUYRt2xdmMROAGg7ZvvreAE6U+W9fyVRiby9E0BOSxBopf7lXC+sc/6+YCuFkGaRz3mYVVyHAgMBAAECggEAR2RHdW2fAsRBNpZYI9K6LJoJxdrK2zphtFobU/65fodR7DxumnKMi2MbWBfhpwASaLW5klJ6bi/DgWcM78YcPb7u3nywY/nhtVyWO0K/r/ZCUoWikDXTjSL06frG25JBXS8bN7CNNAh53XRo0u3l2U1hsTxjuLAmpkcza1ZaZQAxdHe1Zw3rDLDoRVcIn8R1qg/P5oq+ALFt4P5InN+qCDNJS6EWQzRNqE23vY+Libb9qKJNuhniAFjL8ynLRxxvOonMAet9ZJUcZqtOnwhnIaaX57WpPDP5vApbpIt/TrJ7vx5omcNM8dkOMVDkXXpXC87dDazKXVSABbAEYc5+gQKBgQD2sOcoDwwI6KGSBweTtNrHeKI7Ivj10Gh/UsSEzNSW0Iiw0ShZUNaYO7aj29m7/y6ZgZoa65XAihgJvQOlXBf+rNFrp5YM8/o2/iq+Boe3Wk31nZYWpdQnDvnnE7krbVknRrsr01THlx/bdD9YzdpAf5WWgwUpcJFWZTY+d3mYRwKBgQDfspGVJ7sZ9V+PMjFOc46s1JsbWGWEUYGmC3gSh45eJuosq+losDCF3x9SoB95Pt09tXA3H4owplSbJEU3UWb/3X723NL3EixTLbuoUj9/fRv2/Mczf4DnkTUD6FDfTGNvwgJh+AdCSzmwprWg7uoP2CZa9+2XBZIZ7RKkldB5wQKBgQDN0eTayEsbN7RuGI1a0D7kxCJewpwCw2IcMNsjjZ4lQlF5bNiERGz20INejTRJpOulSbtgkIP+A3lwzpG3KnIemuOTNVx87CYsMb1JlDsxYBfBQDyUIsEx4U3hXNRWhkInAd1yAD0w1UbQG1oq5n0c6RXOYPwyiefItGMglSAPSwKBgQDMJykMShVMrI6InlM3eOj2PJZOD4+egdBj3MW5i3NX5AYFvOMpAttV4fqxKqduvPunDMab2DIDElnWuPRedvEchGYSIBh9Gl3Pj8Za6K1AycpS0AFws2XOcMxEg6oDELETVqlcBcOCMis1WAAdHs4Ipcjjbq+sC456EM3Z3UxFQQKBgQCtqSrywX9i7lmINw4Gejsf0+anh3EL9kxT4wfrhc6eKk5ruBb30nM8AhoSJJJ/QOwL2K9XeRld7aoz9T1aoS//LHk+ee61bqArG1VqJHI2kSsJ9xODadnm8p/wOq8Vds9vitkUmI70mOtDolUU+X3okEZVlpuMTmnnd6BmVo36NA==
+  #rsa-pub-key: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA15Aspo0jbGsYDxd90GhVkrbp7mK6fsIsHsIEGw6nkVRxON2U6okoiXkIPCSVZlZ4bmX0gz/+f4ZM8AZliXQwHrQD4qZoS4L/e+Gczmpl0ZN+aTrtKY6Cpb4Xw+Q41IDOoiILMMqLxZ0E6uEXANiOd+TcWjqhSnsadc1Hrn9IhFMzj63uTMpMYRmXVjR1xpPQQgdUjUHSpMenXEfcrumpNXTLJaclWkiZYGF1BOY+Wc4Tw30uBBc0IDFYQCUYLhCQ9QTxFgT3badD0IlGEbdsXZjETgBoO2b763gBOlPlvX8lUYm8vRNATksQaKX+5VwvrHP+vmArhZBmkc95mFVchwIDAQAB

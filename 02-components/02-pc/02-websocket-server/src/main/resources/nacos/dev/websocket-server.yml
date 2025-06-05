@@ -1,0 +1,91 @@
+server:
+  port: 15081
+  tomcat:
+    threads:
+      min-spare: 50 #最小线程数
+      max: 10000 #最大线程数
+    max-connections: 5000 #最大连接数
+    uri-encoding: UTF-8 #编码方式
+    max-http-form-post-size: 0 #post提交数据最大大小，设置为0不限制
+    connection-timeout: 10000 #连接超时时间
+  servlet:
+    session:
+      timeout: 7200s
+    context-path: /websocket-server
+
+spring:
+  application:
+    name: websocket-server
+  session:
+    store-type: redis
+    redis:
+      flush-mode: ON_SAVE
+      namespace: spring:session
+  jmx:
+    enabled: false
+  resources:
+    add-mappings: false
+  main:
+    allow-bean-definition-overriding: true
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+  thymeleaf:
+    suffix: .html
+    cache: false
+    prefix: classpath:/templates/
+    mode: HTML5
+    encoding: UTF-8
+
+logging:
+  config: classpath:logback.xml
+  level:
+    root: info
+
+microvideo:
+  websocket:
+    checkTokenEnabled: false
+  message:
+    one-topic: framework3_websocket_topic
+    batch-topic: framework3_websocket_topic
+  security:
+    referer:
+      enable: true
+      excludes: /microvideo/index
+  kafka:
+    #生产者的配置，大部分我们可以使用默认的，这里列出几个比较重要的属性
+    producer:
+      servers: 192.168.103.190:9092
+      #每批次发送消息的数量
+      batch-size: 1
+      #设置大于0的值将使客户端重新发送任何数据，一旦这些数据发送失败。注意，这些重试与客户端接收到发送错误时的重试没有什么不同。允许重试将潜在的改变数据的顺序，如果这两个消息记录都是发送到同一个partition，则第一个消息失败第二个发送成功，则第二条消息会比第一条消息出现要早。
+      retries: 3
+      #producer可以用来缓存数据的内存大小。如果数据产生速度大于向broker发送的速度，producer会阻塞或者抛出异常，以“block.on.buffer.full”来表明。这项设置将和producer能够使用的总内存相关，但并不是一个硬性的限制，因为不是producer使用的所有内存都是用于缓存。一些额外的内存会用于压缩（如果引入压缩机制），同样还有一些用于维护请求。
+      buffer-memory: 33554432
+      #key序列化方式
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      #value序列化方式
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      servers: 192.168.103.190:9092
+      #Kafka中没有初始偏移或如果当前偏移在服务器上不再存在时,默认区最新 ，有三个选项 【latest, earliest, none】
+      auto-offset-reset: latest
+      #是否开启自动提交
+      enable-auto-commit: true
+      #l连接超时，单位毫秒
+      session-timeout: 20000
+      #周期性自动提交的间隔，单位毫秒
+      auto-commit-interval: 2000
+      #key的解码方式
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      #value的解码方式
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      #在/usr/local/etc/kafka/consumer.properties中有配置
+      group-id: microvideo-chae-bus-websocket-dev
+      #同时处理线程数，应设置与brocker数量一致
+      concurrency: 2
+      #每批最大条数，默认500
+      max-poll-records: 5
+  cas:
+    profile-token: 'http://192.168.103.163/cas/oidc/profile?access_token=%s'

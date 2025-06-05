@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+	<parent>
+        <groupId>cn.microvideo.framework3.project</groupId>
+        <artifactId>mvpd</artifactId>
+		<version>${revision}</version>
+        <relativePath>../../../pom.xml</relativePath>
+	</parent>
+
+    <groupId>cn.microvideo.framework3.project</groupId>
+    <artifactId>component-flink-kafka-sink-custom</artifactId>
+    <packaging>jar</packaging>
+
+    <name>Mvpd::Component::Flink::Kafka::Sink::Custom</name>
+
+    <properties>
+        <main.basedir>${project.parent.basedir}</main.basedir>
+    </properties>
+
+<dependencies>
+    <dependency>
+		<groupId>cn.microvideo.framework3.support</groupId>
+		<artifactId>microvideo-support-flink-kafka-sink-kafka</artifactId>
+    </dependency>
+
+    <dependency>
+        <groupId>cn.microvideo.framework3.webapp</groupId>
+        <artifactId>microvideo-webapp-cloud-tomcat</artifactId>
+    </dependency>
+
+    <!--  kafka消息推送-->
+    <dependency>
+        <groupId>cn.microvideo.framework3.support</groupId>
+        <artifactId>microvideo-support-kafka-producer</artifactId>
+    </dependency>
+
+    <!--  redis-->
+    <dependency>
+        <groupId>cn.microvideo.framework3.support</groupId>
+        <artifactId>microvideo-support-redis-common</artifactId>
+    </dependency>
+
+</dependencies>
+
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+        </plugin>
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <configuration>
+                <mainClass>cn.microvideo.framework3.component.flink.ksc.MicrovideoFlinkKscApplication</mainClass>
+            </configuration>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>repackage</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-assembly-plugin</artifactId>
+        </plugin>
+    </plugins>
+    <resources>
+        <resource>
+            <directory>src/main/resources</directory>
+            <filtering>true</filtering>
+            <includes>
+                <include>Dockerfile-production*</include>
+                <include>Dockerfile-test*</include>
+                <include>*.yml</include>
+                <include>*.xml</include>
+                <include>banner.txt</include>
+                <include>application.yml</include>
+                <include>knife4j/*.*</include>
+                <include>code.properties</include>
+            </includes>
+        </resource>
+    </resources>
+</build>
+</project>

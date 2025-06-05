@@ -1,0 +1,14 @@
+<FindBugsFilter>
+    <Match>
+        <Class name="~.*\.*Test.*"/>
+        <Not>
+            <Bug code="IJU"/>
+        </Not>
+    </Match>
+    <Match>
+        <Class name="~.*\.*Example.*"/>
+    </Match>
+    <Match>
+        <Bug pattern="RR_NOT_CHECKED, EI_EXPOSE_REP, EI_EXPOSE_REP2, SE_TRANSIENT_FIELD_NOT_RESTORED" />
+    </Match>
+</FindBugsFilter>

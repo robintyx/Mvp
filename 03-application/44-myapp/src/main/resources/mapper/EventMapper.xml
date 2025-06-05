@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.microvideo.framework3.project.mapper.EventMapper">
+    <select id="selectEvents" resultType="cn.microvideo.framework3.project.entity.Event">
+        SELECT
+        the.f_int_event_id AS event_id,
+        the.f_vc_car_client AS car_client,
+        the.f_vc_issue AS issue,
+        the.f_int_line_id AS line_id,
+        the.f_int_camera_id AS camera_id,
+        thc.f_vc_camera_name AS camera_name,
+        thl.f_vc_line_name AS line_name
+        FROM t_hw_event the
+        JOIN t_hw_camera thc ON the.f_int_camera_id = thc.f_int_camera_id
+        JOIN t_hw_line thl ON thc.f_int_line_id = thl.f_int_line_id
+        <where>
+            <if test="event_id != null">
+                AND the.f_int_event_id = #{event_id}
+            </if>
+            <if test="car_client != null and car_client != ''">
+                AND the.f_vc_car_client = #{car_client}
+            </if>
+            <if test="line_id != null">
+                AND the.f_int_line_id = #{line_id}
+            </if>
+            <if test="camera_id != null">
+                AND the.f_int_camera_id = #{camera_id}
+            </if>
+        </where>
+        ORDER BY the.f_int_event_id DESC
+    </select>
+    <insert id="addEvent">
+        INSERT INTO t_hw_event(f_vc_car_client,
+                               f_vc_issue,
+                               f_int_line_id,
+                               f_int_camera_id)
+        VALUES (#{car_client}, #{issue}, #{line_id}, #{camera_id})
+    </insert>
+</mapper>

@@ -1,0 +1,278 @@
+server:
+  port: 17083
+  tomcat:
+    threads:
+      min-spare: 50 #最小线程数
+      max: 10000 #最大线程数
+    max-connections: 5000 #最大连接数
+    uri-encoding: UTF-8 #编码方式
+    max-http-form-post-size: 0 #post提交数据最大大小，设置为0不限制
+    connection-timeout: 10000 #连接超时时间
+  servlet:
+    session:
+      timeout: 7200s
+    context-path: /transferkafka
+
+spring:
+  application:
+    name: transfer-kafka-to-kafkahttp
+  session:
+    store-type: redis
+    redis:
+      flush-mode: ON_SAVE
+      namespace: spring:session
+  data:
+    redis:
+      host: 192.168.103.190
+      port: 6379
+      password: Gd123aA
+      database: 9
+      lettuce:
+        pool:
+          max-idle: 16
+          max-active: 500
+          min-idle: 8
+      timeout: 1000
+  jmx:
+    enabled: false
+  resources:
+    add-mappings: false
+  main:
+    allow-bean-definition-overriding: true
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+  thymeleaf:
+    suffix: .html
+    cache: false
+    prefix: classpath:/templates/
+    mode: HTML5
+    encoding: UTF-8
+
+logging:
+  config: classpath:logback.xml
+  level:
+    root: info
+
+microvideo:
+  message:
+    one-topic1: vehi_accident_high_road,vehi_dangerous_high_road
+    one-topic2: vehi_rescue_high_road,abnormal_toss_high_road
+    one-topic3: vehi_reverse_high_road,vehi_day_congestion_high_road
+    one-topic4: vehi_converse_high_road,fog_high_road
+    one-topic5: vehi_stop_high_road,other_high_road
+    one-topic6: construction_high_road
+    one-topic7: into_forbidden_area_high_road
+    one-topic8: motorcycle_high_road
+    batch-topic: test_topic
+  kafka:
+    consumer:
+      servers: 172.23.253.133:9092
+      #Kafka中没有初始偏移或如果当前偏移在服务器上不再存在时,默认区最新 ，有三个选项 【latest, earliest, none】
+      auto-offset-reset: latest
+      #是否开启自动提交
+      enable-auto-commit: false
+      #MANUAL_IMMEDIATE  listner负责ack，每调用一次，就立即commit
+      ack-mode: MANUAL_IMMEDIATE
+      #l连接超时，单位毫秒
+      session-timeout: 20000
+      #周期性自动提交的间隔，单位毫秒
+      auto-commit-interval: 2000
+      #key的解码方式
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      #value的解码方式
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      #在/usr/local/etc/kafka/consumer.properties中有配置
+      group-id: microvideo-chae-kafka-transfer-dev
+      #同时处理线程数，应设置与brocker数量一致
+      concurrency: 2
+      #每批最大条数，默认500
+      max-poll-records: 5
+      reconnect:backoff:max:ms:
+  kafkatransfer:
+    producers:
+      - {
+        code: 'P1' ,
+        bootstrapServers: '172.22.171.1:9092,172.22.171.2:9092,172.22.171.3:9092' ,
+        keySerializer: 'org.apache.kafka.common.serialization.StringSerializer' ,
+        valueSerializer: 'org.apache.kafka.common.serialization.StringSerializer',
+        idempotence: true,
+        acks: 'all'
+      }
+    targets:
+      - {
+        fromTopic: 'vehi_accident_high_road' ,
+        kafka: [{
+          code: 'P1' ,
+          topic: 'test_topic',
+        }],
+        http: [{
+          host: 'newzhddex.jchc.cn' ,
+          protocol: 'https',
+          uri: '/external/third/otherReceive?apiId=eventAlarm',
+          port: '443',
+          accessKey: '1',
+          accessSecret: '1',
+          headers: [{ key: 'appId',value: 'aiSquare'},{ key: 'authCode',value: 'Microvideo@2021'}]
+        }
+        ]
+      }
+      - {
+        fromTopic: 'vehi_rescue_high_road' ,
+        http: [{
+          host: 'newzhddex.jchc.cn' ,
+          protocol: 'https',
+          uri: '/external/third/otherReceive?apiId=eventAlarm',
+          port: '443',
+          accessKey: '1',
+          accessSecret: '1',
+          headers: [{ key: 'appId',value: 'aiSquare'},{ key: 'authCode',value: 'Microvideo@2021'}]
+        }
+        ]
+      }
+      - {
+        fromTopic: 'vehi_reverse_high_road' ,
+        http: [{
+          host: 'newzhddex.jchc.cn' ,
+          protocol: 'https',
+          uri: '/external/third/otherReceive?apiId=bsEventAlarm',
+          port: '443',
+          accessKey: '1',
+          accessSecret: '1',
+          headers: [{ key: 'appId',value: 'aiSquare'},{ key: 'authCode',value: 'Microvideo@2021'}]
+        }
+        ]
+      }
+      - {
+        fromTopic: 'vehi_converse_high_road' ,
+        http: [{
+          host: 'newzhddex.jchc.cn' ,
+          protocol: 'https',
+          uri: '/external/third/otherReceive?apiId=bsEventAlarm',
+          port: '443',
+          accessKey: '1',
+          accessSecret: '1',
+          headers: [{ key: 'appId',value: 'aiSquare'},{ key: 'authCode',value: 'Microvideo@2021'}]
+        }
+        ]
+      }
+      - {
+        fromTopic: 'vehi_stop_high_road' ,
+        http: [{
+          host: 'newzhddex.jchc.cn' ,
+          protocol: 'https',
+          uri: '/external/third/otherReceive?apiId=bsEventAlarm',
+          port: '443',
+          accessKey: '1',
+          accessSecret: '1',
+          headers: [{ key: 'appId',value: 'aiSquare'},{ key: 'authCode',value: 'Microvideo@2021'}]
+        }
+        ]
+      }
+      - {
+        fromTopic: 'construction_high_road' ,
+        http: [{
+          host: 'newzhddex.jchc.cn' ,
+          protocol: 'https',
+          uri: '/external/third/otherReceive?apiId=bsEventAlarm',
+          port: '443',
+          accessKey: '1',
+          accessSecret: '1',
+          headers: [{ key: 'appId',value: 'aiSquare'},{ key: 'authCode',value: 'Microvideo@2021'}]
+        }
+        ]
+      }
+      - {
+        fromTopic: 'into_forbidden_area_high_road' ,
+        http: [{
+          host: 'newzhddex.jchc.cn' ,
+          protocol: 'https',
+          uri: '/external/third/otherReceive?apiId=bsEventAlarm',
+          port: '443',
+          accessKey: '1',
+          accessSecret: '1',
+          headers: [{ key: 'appId',value: 'aiSquare'},{ key: 'authCode',value: 'Microvideo@2021'}]
+        }
+        ]
+      }
+      - {
+        fromTopic: 'motorcycle_high_road' ,
+        http: [{
+          host: 'newzhddex.jchc.cn' ,
+          protocol: 'https',
+          uri: '/external/third/otherReceive?apiId=bsEventAlarm',
+          port: '443',
+          accessKey: '1',
+          accessSecret: '1',
+          headers: [{ key: 'appId',value: 'aiSquare'},{ key: 'authCode',value: 'Microvideo@2021'}]
+        }
+        ]
+      }
+      - {
+        fromTopic: 'vehi_dangerous_high_road' ,
+        http: [{
+          host: 'newzhddex.jchc.cn' ,
+          protocol: 'https',
+          uri: '/external/third/otherReceive?apiId=bsEventAlarm',
+          port: '443',
+          accessKey: '1',
+          accessSecret: '1',
+          headers: [{ key: 'appId',value: 'aiSquare'},{ key: 'authCode',value: 'Microvideo@2021'}]
+        }
+        ]
+      }
+      - {
+        fromTopic: 'abnormal_toss_high_road' ,
+        http: [{
+          host: 'newzhddex.jchc.cn' ,
+          protocol: 'https',
+          uri: '/external/third/otherReceive?apiId=bsEventAlarm',
+          port: '443',
+          accessKey: '1',
+          accessSecret: '1',
+          headers: [{ key: 'appId',value: 'aiSquare'},{ key: 'authCode',value: 'Microvideo@2021'}]
+        }
+        ]
+      }
+      - {
+        fromTopic: 'vehi_day_congestion_high_road' ,
+        http: [{
+          host: 'newzhddex.jchc.cn' ,
+          protocol: 'https',
+          uri: '/external/third/otherReceive?apiId=bsEventAlarm',
+          port: '443',
+          accessKey: '1',
+          accessSecret: '1',
+          headers: [{ key: 'appId',value: 'aiSquare'},{ key: 'authCode',value: 'Microvideo@2021'}]
+        }
+        ]
+      }
+      - {
+        fromTopic: 'fog_high_road' ,
+        http: [{
+          host: 'newzhddex.jchc.cn' ,
+          protocol: 'https',
+          uri: '/external/third/otherReceive?apiId=bsEventAlarm',
+          port: '443',
+          accessKey: '1',
+          accessSecret: '1',
+          headers: [{ key: 'appId',value: 'aiSquare'},{ key: 'authCode',value: 'Microvideo@2021'}]
+        }
+        ]
+      }
+      - {
+        fromTopic: 'other_high_road' ,
+        http: [{
+          host: 'newzhddex.jchc.cn' ,
+          protocol: 'https',
+          uri: '/external/third/otherReceive?apiId=bsEventAlarm',
+          port: '443',
+          accessKey: '1',
+          accessSecret: '1',
+          headers: [{ key: 'appId',value: 'aiSquare'},{ key: 'authCode',value: 'Microvideo@2021'}]
+        }
+        ]
+      }
+
+
