@@ -85,4 +85,11 @@ public class LineController {
         List<Line> parsedLines = lineService.StrToList(lines);
         return Result.success(parsedLines, "查询成功");
     }
+
+    @GetMapping("/section/{section_id}")
+    public Result<List<Line>> selectBySectionId(@PathVariable Integer section_id) {
+        List<Line> lines = lineMapper.selectBySectionId(section_id);
+        List<Line> parsedLines = lineService.StrToList(lines);
+        return Result.success(parsedLines, "查询成功");
+    }
 }

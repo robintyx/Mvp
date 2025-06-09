@@ -1,6 +1,7 @@
 package cn.microvideo.framework3.project.controller;
 
 import cn.microvideo.framework3.project.entity.Camera;
+import cn.microvideo.framework3.project.entity.CameraType;
 import cn.microvideo.framework3.project.entity.Result;
 import cn.microvideo.framework3.project.mapper.CameraMapper;
 import com.github.pagehelper.PageHelper;
@@ -252,5 +253,91 @@ class CameraControllerTest {
         assertTrue(result.isSuccess());
         assertEquals(2, result.getData().size());
         verify(cameraMapper).selectAll();
+    }
+
+    /**
+     * 测试selectAllByLineId方法 - 成功查询到摄像头数据
+     */
+    @Test
+    void selectAllByLineId_shouldReturnSuccessWithCameraList() {
+        // Arrange
+        Integer lineId = 1;
+        List<Camera> expectedCameras = new ArrayList<>();
+        expectedCameras.add(new Camera());
+        expectedCameras.add(new Camera());
+
+        when(cameraMapper.selectByLineId(lineId)).thenReturn(expectedCameras);
+
+        // Act
+        Result<List<Camera>> result = cameraController.selectAllByLineId(lineId);
+
+        // Assert
+        assertTrue(result.isSuccess());
+        assertEquals("查询成功", result.getMessage());
+        assertEquals(2, result.getData().size());
+        verify(cameraMapper).selectByLineId(lineId);
+    }
+
+    /**
+     * 测试selectAllByLineId方法 - 查询结果为空
+     */
+    @Test
+    void selectAllByLineId_shouldReturnSuccessWithEmptyList() {
+        // Arrange
+        Integer lineId = 1;
+        List<Camera> emptyList = new ArrayList<>();
+
+        when(cameraMapper.selectByLineId(lineId)).thenReturn(emptyList);
+
+        // Act
+        Result<List<Camera>> result = cameraController.selectAllByLineId(lineId);
+
+        // Assert
+        assertTrue(result.isSuccess());
+        assertEquals("查询成功", result.getMessage());
+        assertTrue(result.getData().isEmpty());
+        verify(cameraMapper).selectByLineId(lineId);
+    }
+
+    /**
+     * 测试selectAllCameraType方法 - 成功查询到摄像头类型数据
+     */
+    @Test
+    void selectAllCameraType_shouldReturnSuccessWithTypeList() {
+        // Arrange
+        List<CameraType> expectedTypes = new ArrayList<>();
+        expectedTypes.add(new CameraType());
+        expectedTypes.add(new CameraType());
+
+        when(cameraMapper.selectAllCameraType()).thenReturn(expectedTypes);
+
+        // Act
+        Result<List<CameraType>> result = cameraController.selectAllCameraType();
+
+        // Assert
+        assertTrue(result.isSuccess());
+        assertEquals("查询成功", result.getMessage());
+        assertEquals(2, result.getData().size());
+        verify(cameraMapper).selectAllCameraType();
+    }
+
+    /**
+     * 测试selectAllCameraType方法 - 查询结果为空
+     */
+    @Test
+    void selectAllCameraType_shouldReturnSuccessWithEmptyTypeList() {
+        // Arrange
+        List<CameraType> emptyList = new ArrayList<>();
+
+        when(cameraMapper.selectAllCameraType()).thenReturn(emptyList);
+
+        // Act
+        Result<List<CameraType>> result = cameraController.selectAllCameraType();
+
+        // Assert
+        assertTrue(result.isSuccess());
+        assertEquals("查询成功", result.getMessage());
+        assertTrue(result.getData().isEmpty());
+        verify(cameraMapper).selectAllCameraType();
     }
 }

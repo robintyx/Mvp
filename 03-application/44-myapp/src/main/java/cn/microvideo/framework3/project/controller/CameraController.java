@@ -84,6 +84,11 @@ public class CameraController {
         return Result.success(cameraMapper.selectAll(), "查询成功");
     }
 
+    @GetMapping("/lineAll/{line_id}")
+    public Result<List<Camera>> selectAllByLineId(@PathVariable Integer line_id) {
+        return Result.success(cameraMapper.selectByLineId(line_id), "查询成功");
+    }
+
     @GetMapping("/type")
     public Result<List<CameraType>> selectAllCameraType() {
         return Result.success(cameraMapper.selectAllCameraType(), "查询成功");

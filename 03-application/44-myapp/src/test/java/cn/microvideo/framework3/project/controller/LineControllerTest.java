@@ -229,4 +229,114 @@ class LineControllerTest {
         verify(lineMapper).selectAll();
         verify(lineService).StrToList(mockLines);
     }
+
+    /**
+     * 测试selectAll方法 - 查询结果为空的情况
+     */
+    @Test
+    void selectAll_ShouldReturnSuccessWhenNoData() {
+        // 准备mock数据
+        when(lineMapper.selectAll()).thenReturn(Collections.emptyList());
+        when(lineService.StrToList(Collections.emptyList())).thenReturn(Collections.emptyList());
+
+        // 调用被测方法
+        Result<List<Line>> result = lineController.selectAll();
+
+        // 验证结果
+        assertTrue(result.isSuccess());
+        assertEquals("查询成功", result.getMessage());
+        assertTrue(result.getData().isEmpty());
+
+        // 验证mock调用
+        verify(lineMapper).selectAll();
+        verify(lineService).StrToList(Collections.emptyList());
+    }
+
+    /**
+     * 测试selectAll方法 - 查询结果不为空的情况
+     */
+    @Test
+    void selectAll_ShouldReturnSuccessWithData() {
+        // 准备测试数据
+        Line line1 = new Line();
+        line1.setLine_id(1);
+        Line line2 = new Line();
+        line2.setLine_id(2);
+        List<Line> mockLines = Arrays.asList(line1, line2);
+        List<Line> mockParsedLines = Arrays.asList(line1, line2);
+
+        // 准备mock行为
+        when(lineMapper.selectAll()).thenReturn(mockLines);
+        when(lineService.StrToList(mockLines)).thenReturn(mockParsedLines);
+
+        // 调用被测方法
+        Result<List<Line>> result = lineController.selectAll();
+
+        // 验证结果
+        assertTrue(result.isSuccess());
+        assertEquals("查询成功", result.getMessage());
+        assertEquals(2, result.getData().size());
+        assertEquals(1, result.getData().get(0).getLine_id());
+        assertEquals(2, result.getData().get(1).getLine_id());
+
+        // 验证mock调用
+        verify(lineMapper).selectAll();
+        verify(lineService).StrToList(mockLines);
+    }
+
+    /**
+     * 测试selectBySectionId方法 - 查询结果为空的情况
+     */
+    @Test
+    void selectBySectionId_ShouldReturnSuccessWhenNoData() {
+        // 准备mock数据
+        when(lineMapper.selectBySectionId(anyInt())).thenReturn(Collections.emptyList());
+        when(lineService.StrToList(Collections.emptyList())).thenReturn(Collections.emptyList());
+
+        // 调用被测方法
+        Result<List<Line>> result = lineController.selectBySectionId(1);
+
+        // 验证结果
+        assertTrue(result.isSuccess());
+        assertEquals("查询成功", result.getMessage());
+        assertTrue(result.getData().isEmpty());
+
+        // 验证mock调用
+        verify(lineMapper).selectBySectionId(1);
+        verify(lineService).StrToList(Collections.emptyList());
+    }
+
+    /**
+     * 测试selectBySectionId方法 - 查询结果不为空的情况
+     */
+    @Test
+    void selectBySectionId_ShouldReturnSuccessWithData() {
+        // 准备测试数据
+        Line line1 = new Line();
+        line1.setLine_id(1);
+        line1.setSection_id(100);
+        Line line2 = new Line();
+        line2.setLine_id(2);
+        line2.setSection_id(100);
+        List<Line> mockLines = Arrays.asList(line1, line2);
+        List<Line> mockParsedLines = Arrays.asList(line1, line2);
+
+        // 准备mock行为
+        when(lineMapper.selectBySectionId(100)).thenReturn(mockLines);
+        when(lineService.StrToList(mockLines)).thenReturn(mockParsedLines);
+
+        // 调用被测方法
+        Result<List<Line>> result = lineController.selectBySectionId(100);
+
+        // 验证结果
+        assertTrue(result.isSuccess());
+        assertEquals("查询成功", result.getMessage());
+        assertEquals(2, result.getData().size());
+        assertEquals(100, result.getData().get(0).getSection_id());
+        assertEquals(100, result.getData().get(1).getSection_id());
+
+        // 验证mock调用
+        verify(lineMapper).selectBySectionId(100);
+        verify(lineService).StrToList(mockLines);
+    }
 }

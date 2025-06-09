@@ -16,4 +16,6 @@ public interface LineMapper {
     int insertLine(Line line);
 
     int updateLine(Line line);
+
+    List<Line> selectBySectionId(Integer sectionId);
 }

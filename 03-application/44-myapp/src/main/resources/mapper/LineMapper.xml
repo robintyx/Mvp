@@ -59,4 +59,20 @@
         WHERE f_int_line_id = #{line_id}
           AND f_int_data_del_flag = 0
     </update>
+    <select id="selectBySectionId" resultType="cn.microvideo.framework3.project.entity.Line">
+        SELECT f_int_line_id                                                         AS line_id,
+               f_vc_line_name                                                        AS line_name,
+               JSON_EXTRACT(ST_AsGeoJSON(f_geom_line_spatial_data), '$.coordinates') AS coordinates,
+               thl.f_int_company_id                                                  AS company_id,
+               thc.f_vc_company_name                                                 AS company_name,
+               thl.f_int_section_id                                                  AS section_id,
+               ths.f_vc_section_name                                                 AS section_name,
+               f_int_status                                                          AS status
+        FROM t_hw_line thl
+                 JOIN t_hw_company thc on thc.f_int_company_id = thl.f_int_company_id
+                 JOIN t_hw_section ths on thl.f_int_section_id = ths.f_int_section_id
+        WHERE thl.f_int_section_id = #{section_id}
+          AND thl.f_int_data_del_flag = 0
+        ORDER BY f_int_line_id ASC
+    </select>
 </mapper>
